@@ -1,0 +1,254 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Dying To Find</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css?family=Quicksand:400');
+    /* @import url('https://fonts.googleapis.com/css?family=Fira+Mono:400'); */
+
+    #loading-screen {
+      position: fixed;
+      top: 0;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      background-color: black;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      z-index: 100;
+    }
+
+    .a-enter-vr-button {
+      display: none
+    }
+
+    .quote {
+      width: 80%;
+      margin-bottom: 80px;
+      font-size: 28px;
+      color: rgb(233, 233, 233);
+      font-family: 'Quicksand', sans-serif;
+      /* font-family: 'Fira Mono', monospace; */
+      line-height: 45px;
+    }
+
+    .loading {
+      position: fixed;
+      bottom: 30px;
+      color: rgb(233, 233, 233);
+      font-size: 28px;
+      font-family: 'Quicksand', sans-serif;
+      /* font-family: 'Fira Mono', monospace; */
+    }
+
+    .flash-ligh {
+      font-size: 2em;
+      letter-spacing: 4px;
+      overflow: hidden;
+      background: linear-gradient(90deg, #000, #fff, #000);
+      background-repeat: no-repeat;
+      background-size: 80%;
+      animation: animate 8s linear infinite;
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: rgba(255, 255, 255, 0);
+    }
+
+    .author {
+      margin-top: 45px;
+      text-align: right;
+    }
+
+    .a-loader-title {
+      visibility: hidden;
+    }
+
+    .moveTutorialContainer {
+      display: flex;
+      width: 100%;
+      height: 100%;
+      justify-content: center;
+      align-items: flex-end;
+      z-index: 999;
+    }
+
+    .tutorialText,
+    .tutorialImg {
+      display: inline-block;
+      z-index: 999;
+      margin-bottom: 20px;
+      color: rgb(10, 10, 10);
+    }
+
+    .tutorialText {
+      font-size: 20px;
+      line-height: 34px;
+      font-family: 'Quicksand', sans-serif;
+    }
+
+    .tutorialImg {
+      margin-left: 10px;
+      margin-right: 10px;
+      width: 110px;
+      height: 71px;
+    }
+
+    #vrTutorial {
+      display: none;
+    }
+
+    @keyframes animate {
+      0% {
+        background-position: -500%;
+      }
+
+      100% {
+        background-position: 500%;
+      }
+    }
+
+    @media screen and (max-width: 600px) {
+      .moveTutorialContainer {
+        visibility: hidden;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+  <div id="loading-screen">
+    <div class="quote flash-ligh">
+      Power lines connect the remains of this soulless civilization.
+      <div class="author">Find the way out.</div>
+    </div>
+    <div class="loading flash-ligh">Loading...</div>
+  </div>
+
+  <script>
+    document.addEventListener('DOMContentLoaded', (event) => {
+      // Handle loading screen
+      let ascene = document.querySelector('a-scene');
+      let loadingScreen = document.querySelector('#loading-screen');
+      let lodingScreennMinDuration = 0; // sec
+      let loadStart = new Date().getTime();
+      const desktopTutorial = document.getElementById('desktopTutorial');
+      const vrTutorial = document.getElementById('vrTutorial');
+
+
+      desktopTutorial.style.display = 'none';
+      vrTutorial.style.display = 'none';
+      ascene.addEventListener('loaded', () => {
+        let loadEnd = new Date().getTime();
+
+        let timeDelta = ((loadEnd - loadStart) % (1000 * 60)) / 1000.0;
+
+        if (timeDelta < lodingScreennMinDuration) {
+          setTimeout(() => {
+            loadingScreen.style.display = 'none';
+            setTutorial()
+          }, ((lodingScreennMinDuration - timeDelta) * 1000))
+        } else {
+          // Scene and all assets are fully loaded
+          loadingScreen.style.display = 'none';
+          setTutorial()
+        }
+      });
+
+      ascene.addEventListener('enter-vr', function () {
+        // turn sound on 
+        ascene.systems['sound-system'].setSound(true);
+      });
+
+    });
+
+    setTutorial = () => {
+      if ("xr" in navigator) {
+        navigator.xr.isSessionSupported("immersive-vr").then((supported) => {
+          const desktopTutorial = document.getElementById('desktopTutorial');
+          const vrTutorial = document.getElementById('vrTutorial');
+          document.querySelector('.a-enter-vr-button').style.display = 'block';
+          if (supported) {
+            // Show VR specific tutorial text
+            desktopTutorial.style.display = 'none';
+            vrTutorial.style.display = 'flex';
+          } else {
+            desktopTutorial.style.display = 'flex';
+            vrTutorial.style.display = 'none';
+          }
+        });
+      }
+    }
+  </script>
+
+  <!-- Order does matter here! Bundle should be loaded after loading screen but before main scene.-->
+  <script src="bundle.js"></script>
+
+  <a-scene renderer="colorManagement: true; physicallyCorrectLights: true; sortObjects: true" background="color: white"
+    fog="type: exponential; density: 0.01; color: #ffffff" loading-screen="enabled: false">
+
+    <!-- Tutorial UI -->
+    <div id="desktopTutorial" class="moveTutorialContainer">
+      <div class="tutorialText">USE</div>
+      <svg id="wasd" class="tutorialImg move" xmlns="http://www.w3.org/2000/svg" width="24.4385in" height="16.0026in"
+        viewBox="0 0 1759.5754 1152.1854">
+        <g>
+          <rect x="7" y="602.8411" width="542.3443" height="542.3443" rx="25.8276"
+            style="fill: none;stroke: black;stroke-miterlimit: 10;stroke-width: 14px" />
+          <rect x="609.9489" y="602.8411" width="542.3443" height="542.3443" rx="25.8276"
+            style="fill: none;stroke: black;stroke-miterlimit: 10;stroke-width: 14px" />
+          <rect x="609.9489" y="7" width="542.3443" height="542.3443" rx="25.8264"
+            style="fill: none;stroke: black;stroke-miterlimit: 10;stroke-width: 14px" />
+          <rect x="1210.231" y="602.8411" width="542.3443" height="542.3443" rx="25.8276"
+            style="fill: none;stroke: black;stroke-miterlimit: 10;stroke-width: 14px" />
+          <text transform="translate(746.6516 366.5015)"
+            style="font-size: 277.9401550292969px;fill: black;font-family: Quicksand-Regular, Quicksand">W</text>
+          <text transform="translate(191.817 962.022)"
+            style="font-size: 277.9401550292969px;fill: black;font-family: Quicksand-Regular, Quicksand">A</text>
+          <text transform="translate(801.5899 962.022)"
+            style="font-size: 277.9401550292969px;fill: black;font-family: Quicksand-Regular, Quicksand">S</text>
+          <text transform="translate(1393.5104 962.022)"
+            style="font-size: 277.9401550292969px;fill: black;font-family: Quicksand-Regular, Quicksand">D</text>
+        </g>
+      </svg>
+      <div class="tutorialText">TO MOVE</div>
+    </div>
+
+    <div id="vrTutorial" class="moveTutorialContainer">
+      <div class="tutorialText" style="width: 55%;">USE RIGHT CONTROLER THUMBSTICK TO MOVE AROUND AND LEFT TO QUICK TURN
+      </div>
+    </div>
+
+    <a-assets>
+      <audio id="city-background-sound" src="assets/sounds/Dark_SciFi_Drone_Mixed_037.mp3" preload="auto"></audio>
+      <a-asset-item id="environment" src="assets/models/bb.glb"></a-asset-item>
+    </a-assets>
+
+    <a-entity id="background-sound"
+      sound="src: #city-background-sound; positional: false; autoplay: true; loop: true; volume: 0.5;" sound-controller>
+    </a-entity>
+
+    <a-entity loading-screen />
+
+    <a-entity id="cameraRig">
+      <a-entity id="camera" position="0 1.65 0" camera wasd-controls="acceleration: 400" look-controls quick-turn mover>
+      </a-entity>
+      <a-entity oculus-go-controls></a-entity>
+      <a-entity id="leftHandContloller" oculus-touch-controls="hand: left; orientationOffset: 0 0 0;"></a-entity>
+      <a-entity id="rightHandContloller" oculus-touch-controls="hand: right; orientationOffset: 0 0 0;"></a-entity>
+    </a-entity>
+
+    <a-entity id="city-scene" position="0 0 0" visible="true">
+      <a-entity gltf-part="src: #environment; part: ground" id="ground"></a-entity>
+      <a-entity gltf-part="src: #environment; part: opera_house"></a-entity>
+      <a-entity gltf-part="src: #environment; part: cat_house"></a-entity>
+      <a-entity gltf-part="src: #environment; part: road"></a-entity>
+    </a-entity>
+
+  </a-scene>
+</body>
+
+</html>
