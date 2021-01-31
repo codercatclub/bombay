@@ -11,6 +11,7 @@ import GLTFCamera from './components/GLTFCamera';
 import GeoInspector from './components/GeoInspector';
 import FBXLoader from './components/FBXLoader';
 import AnimationPlayer from './components/AnimationPlayer';
+import InstancedGLTFPart from './components/InstancedGLTFPart';
 
 import TestSystem from './systems/TestSystem';
 import SoundSystem from './systems/SoundSystem';
@@ -33,3 +34,4 @@ AFRAME.registerComponent('ccbasic-material', CCBasicMaterial);
 AFRAME.registerComponent('sky-material', SkyMaterial);
 AFRAME.registerComponent('fbx', FBXLoader);
 AFRAME.registerComponent('animation-player', AnimationPlayer);
+AFRAME.registerComponent('instanced-gltf-part', InstancedGLTFPart);
