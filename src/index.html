@@ -230,9 +230,10 @@
     <a-entity id="background-sound"
       sound="src: #city-background-sound; positional: false; autoplay: true; loop: true; volume: 0.5;" sound-controller>
     </a-entity>
+    <a-entity loading-screen></a-entity>
+    <a-entity sky-material></a-entity>
 
-    <a-entity loading-screen />
-
+    
     <a-entity id="cameraRig">
       <a-entity id="camera" position="0 1.65 0" camera wasd-controls="acceleration: 400" look-controls quick-turn mover>
       </a-entity>
@@ -240,13 +241,13 @@
       <a-entity id="leftHandContloller" oculus-touch-controls="hand: left; orientationOffset: 0 0 0;"></a-entity>
       <a-entity id="rightHandContloller" oculus-touch-controls="hand: right; orientationOffset: 0 0 0;"></a-entity>
     </a-entity>
-
     <a-entity id="city-scene" position="0 0 0" visible="true">
-      <a-entity gltf-part="src: #environment; part: ground" id="ground"></a-entity>
-      <a-entity gltf-part="src: #environment; part: opera_house"></a-entity>
-      <a-entity gltf-part="src: #environment; part: cat_house"></a-entity>
-      <a-entity gltf-part="src: #environment; part: road"></a-entity>
+      <a-entity ccbasic-material="vertexColors: face;" gltf-part="src: #environment; part: ground" id="ground"></a-entity>
+      <a-entity ccbasic-material gltf-part="src: #environment; part: opera_house"></a-entity>
+      <a-entity ccbasic-material gltf-part="src: #environment; part: cat_house"></a-entity>
+      <a-entity ccbasic-material gltf-part="src: #environment; part: road"></a-entity>
     </a-entity>
+    <a-light color="red" position="1 0 0"></a-light>
 
   </a-scene>
 </body>

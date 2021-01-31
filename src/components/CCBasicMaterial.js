@@ -37,7 +37,7 @@ export default {
         break;
     }
 
-    this.basicMat = new THREE.MeshBasicMaterial(materialOptions);
+    this.basicMat = new THREE.MeshPhongMaterial(materialOptions);
 
     this.basicMat.onBeforeCompile = (shader) => {
       shader.uniforms = THREE.UniformsUtils.merge([this.uniforms, shader.uniforms]);
@@ -46,10 +46,17 @@ export default {
       this.materialShader = shader;
     };
 
+    this.basicMat.extensions = {
+      derivatives: true
+    };
+
     this.el.addEventListener('object3dset', () => {
       // Assign material to all child meshes
       this.el.object3D.traverse(child => {
         if (child.type === 'Mesh') {
+          if(child.material.map){
+            this.basicMat.map = child.material.map;
+          }
           child.material = this.basicMat;
         }
       });
