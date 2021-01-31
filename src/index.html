@@ -188,7 +188,7 @@
   <script src="bundle.js"></script>
 
   <a-scene renderer="colorManagement: true; physicallyCorrectLights: true; sortObjects: true" background="color: white"
-    fog="type: exponential; density: 0.01; color: #ffffff" loading-screen="enabled: false">
+    fog="type: exponential; density: 0.002; color: #ffffff" loading-screen="enabled: false">
 
     <!-- Tutorial UI -->
     <div id="desktopTutorial" class="moveTutorialContainer">
@@ -241,14 +241,39 @@
       <a-entity id="leftHandContloller" oculus-touch-controls="hand: left; orientationOffset: 0 0 0;"></a-entity>
       <a-entity id="rightHandContloller" oculus-touch-controls="hand: right; orientationOffset: 0 0 0;"></a-entity>
     </a-entity>
+
     <a-entity id="city-scene" position="0 0 0" visible="true">
-      <a-entity ccbasic-material="vertexColors: face;" gltf-part="src: #environment; part: ground" id="ground"></a-entity>
+
+      <!-- BUILDINGS -->
       <a-entity ccbasic-material gltf-part="src: #environment; part: opera_house"></a-entity>
       <a-entity ccbasic-material gltf-part="src: #environment; part: cat_house"></a-entity>
+      <a-entity ccbasic-material="vertexColors: face;" gltf-part="src: #environment; part: radio_tower"></a-entity>
+      <a-entity ccbasic-material gltf-part="src: #environment; part: monopoly"></a-entity>
+      
+      <!-- ENVIRONMENT -->
       <a-entity ccbasic-material gltf-part="src: #environment; part: road"></a-entity>
+      <a-entity ccbasic-material="vertexColors: face;" gltf-part="src: #environment; part: hills"></a-entity>
+      <a-entity ccbasic-material="vertexColors: face;" gltf-part="src: #environment; part: ground" id="ground"></a-entity>
+      <a-entity ccbasic-material gltf-part="src: #environment; part: tree1"></a-entity>
       <a-entity ccbasic-material="vertexColors: face;" instanced-gltf-part="src: #environment; part:voxel_palm"></a-entity>
+
+      <!-- VEHICLES -->
+      <a-entity ccbasic-material gltf-part="src: #environment; part: rv1"></a-entity>
+      <a-entity ccbasic-material gltf-part="src: #environment; part: hover_car"></a-entity>
+
+      <!-- PROPS -->
+      <a-entity ccbasic-material gltf-part="src: #environment; part: mailbox1"></a-entity>
+      <a-entity ccbasic-material gltf-part="src: #environment; part: mailbox2"></a-entity>
+      <a-entity ccbasic-material gltf-part="src: #environment; part: shelf"></a-entity>
+      <a-entity ccbasic-material gltf-part="src: #environment; part: container"></a-entity>
+      <a-entity ccbasic-material gltf-part="src: #environment; part: pallet_rack"></a-entity>
+      <a-entity ccbasic-material gltf-part="src: #environment; part: bb_sign"></a-entity>
+      <a-entity ccbasic-material gltf-part="src: #environment; part: oven"></a-entity>
+      <a-entity ccbasic-material gltf-part="src: #environment; part: logs"></a-entity>
+
     </a-entity>
-    <a-light color="red" position="1 0 0"></a-light>
+    
+    <a-light color="white" intensity="0.3" position="1 0 0"></a-light>
 
   </a-scene>
 </body>
