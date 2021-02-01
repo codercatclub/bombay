@@ -22,15 +22,29 @@ void main() {
 	#include <begin_vertex>
 	#include <morphtarget_vertex>
 	#include <skinning_vertex>
-	#include <project_vertex>
-	#include <logdepthbuf_vertex>
-
+	//#include <project_vertex>
 	//#include <worldpos_vertex>
+
 	vec4 worldPosition = vec4( transformed, 1.0 );
 	#ifdef USE_INSTANCING
 		worldPosition = instanceMatrix * worldPosition;
 	#endif
 	worldPosition = modelMatrix * worldPosition;
+
+	//blocksize
+	// float voxelSize = 4.0 + 2.0*sin(0.001*timeMsec);
+
+
+	// float voxelSize = 2.0 + 1.0*sin(0.0005*timeMsec);
+	// vec3 voxelPos = floor(worldPosition.xyz / voxelSize) * voxelSize; 
+
+	// worldPosition.xyz = mix(worldPosition.xyz, voxelPos, 0.5 + 0.5*sin(0.0005*timeMsec));
+	
+	vec4 mvPosition = viewMatrix * worldPosition;
+	gl_Position = projectionMatrix * mvPosition;
+	#include <logdepthbuf_vertex>
+
+
 
 	#include <clipping_planes_vertex>
 	#include <envmap_vertex>

@@ -8,11 +8,12 @@ export default {
   schema: {
     timeMsec: { default: 1 },
     color: { type: 'color', default: "#ffffff" },
-    vertexColors: { type: 'string', default: '' }
+    vertexColors: { type: 'string', default: '' },
+    instanced: { type: 'bool', default: false }
   },
 
   init: function () {
-    const { vertexColors, color } = this.data;
+    const { vertexColors, color, instanced } = this.data;
     this.uniforms = this.initVariables(this.data);
 
     const materialOptions = {
@@ -37,32 +38,48 @@ export default {
         break;
     }
 
-    this.basicMat = new THREE.MeshPhongMaterial(materialOptions);
+    //push atleast one
+    let mat = this.createMaterial(materialOptions);
 
-    this.basicMat.onBeforeCompile = (shader) => {
-      shader.uniforms = THREE.UniformsUtils.merge([this.uniforms, shader.uniforms]);
-      shader.vertexShader = CCBasicVert;
-      shader.fragmentShader = CCBasicFrag;
-      this.materialShader = shader;
-    };
-
-    this.basicMat.extensions = {
-      derivatives: true
-    };
-
+    this.basicMats = [mat];
+    this.materialShaders = []
+  
     this.el.addEventListener('object3dset', () => {
       // Assign material to all child meshes
       this.el.object3D.traverse(child => {
         if (child.type === 'Mesh') {
-          if(child.material.map){
-            this.basicMat.map = child.material.map;
+          let mat;
+          if(!instanced){
+            mat = this.basicMats[0];
+          } else {
+            // make a new material
+            mat = this.createMaterial(materialOptions);
+            this.basicMats.push(mat)
           }
-          child.material = this.basicMat;
+
+          if(child.material.map){
+            mat.map = child.material.map;
+          }
+          child.material = mat;
         }
       });
     });
   },
+  createMaterial: function (materialOptions) {
+    let mat = new THREE.MeshPhongMaterial(materialOptions);
 
+    mat.onBeforeCompile = (shader) => {
+      shader.uniforms = THREE.UniformsUtils.merge([this.uniforms, shader.uniforms]);
+      shader.vertexShader = CCBasicVert;
+      shader.fragmentShader = CCBasicFrag;
+      this.materialShaders.push(shader)
+    };
+
+    mat.extensions = {
+      derivatives: true
+    };
+    return mat;
+  },
   initVariables: function (data, type) {
     let key;
     let variables = {};
@@ -75,20 +92,25 @@ export default {
   },
 
   update: function (data) {
-    if (!this.materialShader) {
+    if (this.materialShaders.length <= 0) {
       return;
     }
 
     let key;
     for (key in data) {
-      this.materialShader.uniforms[key].value = data[key];
-      this.materialShader.uniforms[key].needsUpdate = true;
+      this.materialShaders.forEach(shader => {
+        shader.uniforms[key].value = data[key];
+        shader.uniforms[key].needsUpdate = true;
+      })
+      
     }
   },
 
   tick: function (time, timeDelta) {
-    if (this.materialShader) {
-      this.materialShader.uniforms.timeMsec.value = time;
+    if (this.materialShaders.length > 0) {
+      this.materialShaders.forEach(shader => {
+        shader.uniforms.timeMsec.value = time;
+      })
     }
   },
 };
