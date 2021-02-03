@@ -11,6 +11,7 @@
 @import ./PerlinNoise;
 
 varying vec3 vViewPos;
+uniform float voxelSize;
 
 void main() {
 	#include <uv_vertex>
@@ -35,10 +36,13 @@ void main() {
 	// float voxelSize = 4.0 + 2.0*sin(0.001*timeMsec);
 
 
-	// float voxelSize = 2.0 + 1.0*sin(0.0005*timeMsec);
-	// vec3 voxelPos = floor(worldPosition.xyz / voxelSize) * voxelSize; 
+	//float voxelSize = 2.0 + 1.0*sin(0.0005*timeMsec);
+	//vec3 voxelPos = floor(worldPosition.xyz / voxelSize) * voxelSize; 
 
 	// worldPosition.xyz = mix(worldPosition.xyz, voxelPos, 0.5 + 0.5*sin(0.0005*timeMsec));
+	
+	vec3 voxelPos = floor(worldPosition.xyz / voxelSize) * voxelSize; 
+	worldPosition.xyz = mix(worldPosition.xyz, voxelPos, 1.0);
 	
 	vec4 mvPosition = viewMatrix * worldPosition;
 	gl_Position = projectionMatrix * mvPosition;

@@ -18,6 +18,7 @@ const Mover = {
     this.isVR = false;
     this.touchMove = false;
     this.lastAxis = new THREE.Vector2();
+    this.moveAmt = 0.0;
     this.vrMovingSpeed = 0.0039 * speed;
 
     const cameraRigEl = document.querySelector(`#${cameraRigID}`);
@@ -107,6 +108,8 @@ const Mover = {
   },
 
   tick: function (time, timeDelta) {
+    let prevPos = this.lastCameraPosition.clone();
+
     if (this.teleportRoutine) {
       if (doRoutine(this.teleportRoutine)) {
         this.teleportRoutine = null;
@@ -133,6 +136,10 @@ const Mover = {
     } else {
       this.handleMove(tweenForward, timeDelta);
     }
+
+    this.moveAmt = this.lastCameraPosition.distanceTo(prevPos);
+    console.log(this.moveAmt)
+
   },
 
   handleVRMove: function (move, timeDelta) {
@@ -179,7 +186,6 @@ const Mover = {
       }
     }
   },
-
   Teleport: function (pos, forward) {
     if (this.teleportRoutine) {
       return;

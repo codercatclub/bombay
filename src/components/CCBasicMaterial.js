@@ -7,6 +7,7 @@ import CCBasicFrag from '../shaders/CCBasicFrag.glsl';
 export default {
   schema: {
     timeMsec: { default: 1 },
+    voxelSize: { default: 1 },
     color: { type: 'color', default: "#ffffff" },
     vertexColors: { type: 'string', default: '' },
     instanced: { type: 'bool', default: false }
@@ -15,6 +16,7 @@ export default {
   init: function () {
     const { vertexColors, color, instanced } = this.data;
     this.uniforms = this.initVariables(this.data);
+    this.vAmt = 0.0;
 
     const materialOptions = {
       color: new THREE.Color(color),
@@ -64,6 +66,9 @@ export default {
         }
       });
     });
+
+    this.moverComponent = document.querySelector('#camera').components.mover;
+
   },
   createMaterial: function (materialOptions) {
     let mat = new THREE.MeshPhongMaterial(materialOptions);
@@ -108,8 +113,10 @@ export default {
 
   tick: function (time, timeDelta) {
     if (this.materialShaders.length > 0) {
+      this.vAmt = 0.9 * this.vAmt + 0.1* this.moverComponent.moveAmt;
       this.materialShaders.forEach(shader => {
         shader.uniforms.timeMsec.value = time;
+        shader.uniforms.voxelSize.value = 3*this.vAmt;
       })
     }
   },
