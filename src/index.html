@@ -188,7 +188,7 @@
   <script src="bundle.js"></script>
 
   <a-scene renderer="colorManagement: true; physicallyCorrectLights: true; sortObjects: true" background="color: white"
-    fog="type: exponential; density: 0.02; color: #a662ff" loading-screen="enabled: false">
+    fog="type: exponential; density: 0.002; color: #ffffff" loading-screen="enabled: false">
 
     <!-- Tutorial UI -->
     <div id="desktopTutorial" class="moveTutorialContainer">
@@ -236,7 +236,7 @@
 
     
     <a-entity id="cameraRig">
-      <a-entity id="camera" position="0 1.65 0" camera wasd-controls="acceleration: 400" look-controls quick-turn mover>
+      <a-entity id="camera" position="0 1.65 0" camera wasd-controls="acceleration: 800" look-controls quick-turn mover>
       </a-entity>
       <a-entity oculus-go-controls></a-entity>
       <a-entity id="leftHandContloller" oculus-touch-controls="hand: left; orientationOffset: 0 0 0;"></a-entity>
@@ -272,7 +272,8 @@
 
     </a-entity>
     
-    <a-light color="white" intensity="0.3" position="1 0 0"></a-light>
+    <a-entity light="type: directional; color: #FFF; intensity: 1" position="-0.5 1 1"></a-entity>
+    <a-entity light="type: ambient; color: #FFF; intensity: 0.8"></a-entity>
 
   </a-scene>
 </body>

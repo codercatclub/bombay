@@ -29,8 +29,10 @@ void main() {
 	#include <map_fragment>
 	#include <color_fragment>
 	ReflectedLight reflectedLight = ReflectedLight( vec3( 0.0 ), vec3( 0.0 ), vec3( 0.0 ), vec3( 0.0 ) );
-	reflectedLight.indirectDiffuse += vec3( 1.0 );
+	reflectedLight.indirectDiffuse += getAmbientLightIrradiance(ambientLightColor);
 	reflectedLight.indirectDiffuse *= diffuseColor.rgb;
+
+	// ambient*diffuse
 
 	vec3 normal = normalize( cross(dFdx(vViewPos.xyz), dFdy(vViewPos.xyz)) );
 
@@ -46,18 +48,20 @@ void main() {
 	// reflectedLight.indirectDiffuse.g += changeColor * 0.4 * (0.5 + 0.5*sin(0.001*timeMsec));
 	// reflectedLight.indirectDiffuse.b += changeColor * 0.4 * (0.5 + 0.5*sin(0.001*timeMsec + 1.0));
 
-	vec3 fractBy3 = vec3(
-		floor(fract(.01 * timeMsec) + 0.5),
-		floor(fract(.01 * timeMsec+0.3) + 0.5),
-		floor(fract(.01 * timeMsec+0.6) + 0.5)
-	);
-	reflectedLight.indirectDiffuse.rgb += changeColor*fractBy3;
+	// vec3 fractBy3 = vec3(
+	// 	floor(fract(.01 * timeMsec) + 0.5),
+	// 	floor(fract(.01 * timeMsec+0.3) + 0.5),
+	// 	floor(fract(.01 * timeMsec+0.6) + 0.5)
+	// );
+	// reflectedLight.indirectDiffuse.rgb += changeColor*fractBy3;
 
+    reflectedLight.directDiffuse *= diffuseColor.rgb;
 
 	vec3 outgoingLight = reflectedLight.directDiffuse + reflectedLight.indirectDiffuse;
 
 
 	gl_FragColor = vec4( outgoingLight, diffuseColor.a );
+	#include <encodings_fragment>
 	@import ./FogFrag;
 	#include <premultiplied_alpha_fragment>
 	#include <dithering_fragment>
