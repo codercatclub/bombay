@@ -33,10 +33,9 @@ export default {
             let scale = baseInstances.attributes._pscale.array;
             let orient = baseInstances.attributes._orient.array;
             let type = baseInstances.attributes._type.array;
-
             let totalCount = baseInstances.attributes._type.count;
 
-            for (let x = 0; x < totalCount; x++) {
+            for (let x = 0; x < totalCount; x+=3) {
                 instancedMeshes[type[x]].count ++
             }
             instancedMeshes.forEach( meshGroup =>  {
@@ -48,7 +47,7 @@ export default {
 
             })
 
-            for (let x = 0; x < totalCount; x++) {
+            for (let x = 0; x < totalCount; x+=3) {
                 dummy.position.set(pos[3*x], pos[3*x+1], pos[3*x+2]);
                 dummy.scale.set(scale[x], scale[x], scale[x]);
                 dummy.quaternion.set(orient[4*x], orient[4*x+1], orient[4*x+2], orient[4*x+3]);

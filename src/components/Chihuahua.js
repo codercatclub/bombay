@@ -25,11 +25,16 @@ export default {
       if(!this.chihuahuaMesh) return;
 
         if(time > this.nextMoveTime){
-            this.nextMoveTime = time + 5000.0*Math.random() + 2000.0;
+            this.nextMoveTime = time + 3000.0*Math.random() + 1000.0;
             this.nextTarget.copy(this.moverComponent.lastCameraPosition)
-            this.nextTarget.add(this.moverComponent.camera.getWorldDirection(new THREE.Vector3()).multiplyScalar(-5));
-            this.moverComponent.camera.getWorldQuaternion(this.nextRotation)
+            this.camForward = new THREE.Vector3();
+            this.moverComponent.camera.getWorldDirection(this.camForward);
+            this.camForward.y = 0.0;
+            var mx = new THREE.Matrix4().lookAt(this.camForward,new THREE.Vector3(0,0,0),new THREE.Vector3(0,1,0));
+            this.nextRotation.setFromRotationMatrix(mx);
             this.nextRotation.premultiply(new THREE.Quaternion().setFromEuler(new THREE.Euler(0,-Math.PI/2,0)))
+
+            this.nextTarget.add(this.camForward.clone().multiplyScalar(-5));
         }      
       
       this.tweenForward.lerp(this.nextTarget, 0.1);
