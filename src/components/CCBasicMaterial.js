@@ -69,7 +69,7 @@ export default {
     });
 
     this.moverComponent = document.querySelector('#camera').components.mover;
-
+    this.timeMoving = 0.0;
   },
   createMaterial: function (materialOptions) {
     let mat = new THREE.MeshPhongMaterial(materialOptions);
@@ -114,10 +114,20 @@ export default {
 
   tick: function (time, timeDelta) {
     if (this.materialShaders.length > 0) {
-      this.vAmt = 0.9 * this.vAmt + 0.1* this.moverComponent.moveAmt;
+      if(this.moverComponent.moveAmt < 0.001){
+        this.timeMoving = 0.0
+      } else {
+        this.timeMoving += timeDelta;
+      }
+
+      if(this.timeMoving > 2000.0) {
+        this.vAmt = 0.99 * this.vAmt + 0.01* this.moverComponent.moveAmt;
+      } else {
+        this.vAmt = 0.9 * this.vAmt;
+      }
       this.materialShaders.forEach(shader => {
         shader.uniforms.timeMsec.value = time;
-        shader.uniforms.voxelSize.value = 3*this.vAmt;
+        shader.uniforms.voxelSize.value = 5*(this.vAmt + 0.0001);
       })
     }
   },
