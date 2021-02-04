@@ -120,7 +120,7 @@ const Mover = {
     this.wasdControls.enabled = true;
     this.camera.getWorldQuaternion(this.worldQuat);
     
-    let tweenForward = new THREE.Vector3(
+    this.tweenForward = new THREE.Vector3(
       -this.lastAxis.x,
       0,
       -this.lastAxis.y
@@ -128,18 +128,16 @@ const Mover = {
 
     // Move to direaction of the camera on Mobile devices
     if (this.touchMove && !this.isVR) {
-      this.camera.getWorldDirection(tweenForward).multiplyScalar(this.data.speed);
+      this.camera.getWorldDirection(this.tweenForward).multiplyScalar(this.data.speed);
     }
 
     if (this.isVR) {
-      this.handleVRMove(tweenForward, timeDelta);
+      this.handleVRMove(this.tweenForward, timeDelta);
     } else {
-      this.handleMove(tweenForward, timeDelta);
+      this.handleMove(this.tweenForward, timeDelta);
     }
 
     this.moveAmt = this.lastCameraPosition.distanceTo(prevPos);
-    console.log(this.moveAmt)
-
   },
 
   handleVRMove: function (move, timeDelta) {

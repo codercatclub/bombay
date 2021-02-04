@@ -8,6 +8,7 @@ export default {
   schema: {
     timeMsec: { default: 1 },
     voxelSize: { default: 1 },
+    changeColor: { default: 0 },
     color: { type: 'color', default: "#ffffff" },
     vertexColors: { type: 'string', default: '' },
     instanced: { type: 'bool', default: false }
