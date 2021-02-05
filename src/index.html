@@ -236,7 +236,7 @@
 
     
     <a-entity id="cameraRig">
-      <a-entity id="camera" position="0 1.65 0" camera wasd-controls="acceleration: 800" look-controls quick-turn mover>
+      <a-entity id="camera" position="0 1.6 0" camera wasd-controls="acceleration: 800" look-controls quick-turn mover>
       </a-entity>
       <a-entity oculus-go-controls></a-entity>
       <a-entity id="leftHandContloller" oculus-touch-controls="hand: left; orientationOffset: 0 0 0;"></a-entity>
@@ -268,12 +268,16 @@
       <a-entity ccbasic-material gltf-part="src: #environment; part: bb_sign"></a-entity>
       <a-entity ccbasic-material gltf-part="src: #environment; part: logs"></a-entity>
 
+      <a-entity ccbasic-material gltf-part="src: #environment; part: animal_house"></a-entity>
+      <a-entity ccbasic-material="transparent: true; vertexColors: face;" gltf-part="src: #environment; part: fence_poles"></a-entity>
+      <a-entity ccbasic-material="transparent: true;" gltf-part="src: #environment; part: fence_wire"></a-entity>
+      
       <a-entity ccbasic-material chihuahua gltf-model="#dog"></a-entity>
 
     </a-entity>
     
-    <a-entity light="type: directional; color: #FFF; intensity: 1" position="-0.5 1 1"></a-entity>
-    <a-entity light="type: ambient; color: #FFF; intensity: 0.8"></a-entity>
+    <a-entity light="type: directional; color: #FFF; intensity: 0.9" position="-0.5 1 1"></a-entity>
+    <a-entity light="type: ambient; color: #FFF; intensity: 0.6"></a-entity>
 
   </a-scene>
 </body>

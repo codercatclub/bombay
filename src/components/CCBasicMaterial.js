@@ -11,17 +11,19 @@ export default {
     shouldGlitch: { default: 0 },
     color: { type: 'color', default: "#ffffff" },
     vertexColors: { type: 'string', default: '' },
-    instanced: { type: 'bool', default: false }
+    instanced: { type: 'bool', default: false },
+    transparent: { type: 'bool', default: false }
   },
 
   init: function () {
-    const { vertexColors, color, instanced } = this.data;
+    const { vertexColors, color, instanced, transparent } = this.data;
     this.uniforms = this.initVariables(this.data);
     this.vAmt = 0.0;
 
     const materialOptions = {
       color: new THREE.Color(color),
       side: THREE.DoubleSide,
+      transparent: transparent
     }
 
     switch (vertexColors) {
