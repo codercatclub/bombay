@@ -4,6 +4,7 @@ import SkyVert from '../shaders/SkyVert.glsl';
 
 export default {
   init: function () {
+    //#4bd6ff
     const noiseTexture = new THREE.TextureLoader().load('/assets/noise.jpg');
     this.skyMaterial = new THREE.ShaderMaterial({
       uniforms: {
@@ -14,7 +15,7 @@ export default {
           value: 0
         },
         horizonColor: {
-          value: new THREE.Color("#a662ff")
+          value: new THREE.Color("#7572ff")
         },
         zenithColor: {
           value: new THREE.Color("#3cf6ff")

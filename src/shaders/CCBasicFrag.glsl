@@ -21,7 +21,7 @@ uniform float opacity;
 #include <logdepthbuf_pars_fragment>
 #include <clipping_planes_pars_fragment>
 varying vec3 vViewPos;
-uniform float changeColor;
+uniform float shouldGlitch;
 void main() {
 	#include <clipping_planes_fragment>
 	vec4 diffuseColor = vec4( diffuse, opacity );
@@ -45,15 +45,13 @@ void main() {
 			reflectedLight.directDiffuse += lightAmt*directionalLight.color;
 		}
 	#endif
-	// reflectedLight.indirectDiffuse.g += changeColor * 0.4 * (0.5 + 0.5*sin(0.001*timeMsec));
-	// reflectedLight.indirectDiffuse.b += changeColor * 0.4 * (0.5 + 0.5*sin(0.001*timeMsec + 1.0));
 
-	// vec3 fractBy3 = vec3(
-	// 	floor(fract(.01 * timeMsec) + 0.5),
-	// 	floor(fract(.01 * timeMsec+0.3) + 0.5),
-	// 	floor(fract(.01 * timeMsec+0.6) + 0.5)
-	// );
-	// reflectedLight.indirectDiffuse.rgb += changeColor*fractBy3;
+	vec3 fractBy3 = vec3(
+		floor(fract(.01 * timeMsec) + 0.5),
+		floor(fract(.01 * timeMsec+0.3) + 0.5),
+		floor(fract(.01 * timeMsec+0.6) + 0.5)
+	);
+	reflectedLight.indirectDiffuse.rgb += shouldGlitch*fractBy3;
 
     reflectedLight.directDiffuse *= diffuseColor.rgb;
 
