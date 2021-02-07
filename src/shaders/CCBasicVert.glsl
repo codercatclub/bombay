@@ -16,6 +16,7 @@ uniform float voxelSize;
 uniform float ignoreGlobalGlitch;
 uniform float windAmt;
 uniform float globalGlitchAmt;
+uniform float shouldGlitch;
 void main() {
 	#include <uv_vertex>
 
@@ -50,13 +51,16 @@ void main() {
 	worldPosition.xz += windAmt*(lerpY  +  lerpY*noiseXZ) * vec2(1.0,1.0);
 
 	//partial block effect? 
-	float vSize = voxelSize;
-	if(noiseXZ > 0.99) { 
-		vSize += globalGlitchAmt;
-	}
-	vSize *= ignoreGlobalGlitch;
-	vSize += 0.001;
-	glitchAmt = vSize;
+
+
+
+	//GLITCH STATES
+	//(IF SHOULD GLITCH IS ON)
+	//(IF NOISE GLOBAL GLITCH IS HAPPENING)
+	float isGlobalGlitching = step(0.99, noiseXZ);
+	glitchAmt = ignoreGlobalGlitch * max(shouldGlitch, isGlobalGlitching*globalGlitchAmt);
+
+	float vSize = voxelSize + globalGlitchAmt * isGlobalGlitching * ignoreGlobalGlitch;
 
 	//voxel
 	vec3 voxelPos = floor(worldPosition.xyz / vSize) * vSize; 

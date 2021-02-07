@@ -55,7 +55,7 @@ void main() {
 		floor(fract(.0075 * timeMsec+0.6) + 0.5)
 	);
 	//reflectedLight.indirectDiffuse.rgb += ignoreGlobalGlitch * max(glitchAmt, shouldGlitch)*fractBy3;
-	reflectedLight.indirectDiffuse.rgb = mix(reflectedLight.indirectDiffuse.rgb, fractBy3, ignoreGlobalGlitch * max(glitchAmt, shouldGlitch));
+	reflectedLight.indirectDiffuse.rgb = mix(reflectedLight.indirectDiffuse.rgb, fractBy3, glitchAmt);
 
     reflectedLight.directDiffuse *= diffuseColor.rgb;
 
