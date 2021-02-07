@@ -1,11 +1,5 @@
 import AFRAME from 'aframe';
 const THREE = AFRAME.THREE;
-//chihuahua state machine
-//follow u
-//running in circles
-//idle
-//glitch 
-
 
 export default {
   schema: {

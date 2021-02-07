@@ -9,6 +9,9 @@ export default {
     timeMsec: { default: 1 },
     voxelSize: { default: 1 },
     shouldGlitch: { default: 0 },
+    globalGlitchAmt: { default: 0 },
+    windAmt: { default: 0.2 },
+    ignoreGlobalGlitch: { default: 1 },
     color: { type: 'color', default: "#ffffff" },
     vertexColors: { type: 'string', default: '' },
     instanced: { type: 'bool', default: false },
@@ -48,6 +51,8 @@ export default {
 
     this.basicMats = [mat];
     this.materialShaders = []
+
+    this.el.sceneEl.systems["env-system"].registerMaterial(this);
   
     this.el.addEventListener('object3dset', () => {
       // Assign material to all child meshes
@@ -68,10 +73,13 @@ export default {
           child.material = mat;
         }
       });
+
+
     });
 
     this.moverComponent = document.querySelector('#camera').components.mover;
     this.timeMoving = 0.0;
+
   },
   createMaterial: function (materialOptions) {
     let mat = new THREE.MeshPhongMaterial(materialOptions);

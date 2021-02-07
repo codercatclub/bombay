@@ -16,6 +16,7 @@ import Chihuahua from './components/Chihuahua';
 
 import TestSystem from './systems/TestSystem';
 import SoundSystem from './systems/SoundSystem';
+import EnvSystem from './systems/EnvironmentSystem';
 
 const THREE = AFRAME.THREE;
 
@@ -25,6 +26,7 @@ const THREE = AFRAME.THREE;
 // Register all systems
 AFRAME.registerSystem('test-system', TestSystem);
 AFRAME.registerSystem('sound-system', SoundSystem);
+AFRAME.registerSystem('env-system', EnvSystem);
 
 // Register all components
 AFRAME.registerComponent('gltf-camera', GLTFCamera);

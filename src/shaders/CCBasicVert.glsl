@@ -11,8 +11,11 @@
 @import ./PerlinNoise;
 
 varying vec3 vViewPos;
+varying float glitchAmt;
 uniform float voxelSize;
-
+uniform float ignoreGlobalGlitch;
+uniform float windAmt;
+uniform float globalGlitchAmt;
 void main() {
 	#include <uv_vertex>
 
@@ -40,8 +43,23 @@ void main() {
 	//vec3 voxelPos = floor(worldPosition.xyz / voxelSize) * voxelSize; 
 
 	// worldPosition.xyz = mix(worldPosition.xyz, voxelPos, 0.5 + 0.5*sin(0.0005*timeMsec));
-	
-	vec3 voxelPos = floor(worldPosition.xyz / voxelSize) * voxelSize; 
+
+	//wind 
+	float lerpY = min(max(worldPosition.y,3.0),10.0) - 3.0;
+	float noiseXZ = 0.5 + cnoise(.1*worldPosition.xz + 0.001*timeMsec);
+	worldPosition.xz += windAmt*(lerpY  +  lerpY*noiseXZ) * vec2(1.0,1.0);
+
+	//partial block effect? 
+	float vSize = voxelSize;
+	if(noiseXZ > 0.99) { 
+		vSize += globalGlitchAmt;
+	}
+	vSize *= ignoreGlobalGlitch;
+	vSize += 0.001;
+	glitchAmt = vSize;
+
+	//voxel
+	vec3 voxelPos = floor(worldPosition.xyz / vSize) * vSize; 
 	worldPosition.xyz = mix(worldPosition.xyz, voxelPos, 1.0);
 	
 	vec4 mvPosition = viewMatrix * worldPosition;

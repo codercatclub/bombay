@@ -187,7 +187,7 @@
   <!-- Order does matter here! Bundle should be loaded after loading screen but before main scene.-->
   <script src="bundle.js"></script>
 
-  <a-scene renderer="colorManagement: true; physicallyCorrectLights: true; sortObjects: true" background="color: white"
+  <a-scene env-system renderer="colorManagement: true; physicallyCorrectLights: true; sortObjects: true" background="color: white"
     fog="type: exponential; density: 0.002; color: #ffffff" loading-screen="enabled: false">
 
     <!-- Tutorial UI -->
@@ -232,7 +232,7 @@
       sound="src: #city-background-sound; positional: false; autoplay: true; loop: true; volume: 0.5;" sound-controller>
     </a-entity>
     <a-entity loading-screen></a-entity>
-    <a-entity sky-material></a-entity>
+    <a-entity id="sky" sky-material></a-entity>
 
     
     <a-entity id="cameraRig">
@@ -252,9 +252,9 @@
       <a-entity ccbasic-material gltf-part="src: #environment; part: monopoly"></a-entity>
       
       <!-- ENVIRONMENT -->
-      <a-entity ccbasic-material="instanced: true" instanced-gltf-part="src: #environment; part:road;"></a-entity>
-      <a-entity ccbasic-material="vertexColors: face;" gltf-part="src: #environment; part: hills"></a-entity>
-      <a-entity ccbasic-material="vertexColors: face;" gltf-part="src: #environment; part: ground" id="ground"></a-entity>
+      <a-entity ccbasic-material="instanced: true;  ignoreGlobalGlitch: 0.0" instanced-gltf-part="src: #environment; part:road;"></a-entity>
+      <a-entity ccbasic-material="vertexColors: face; ignoreGlobalGlitch: 0.0" gltf-part="src: #environment; part: hills"></a-entity>
+      <a-entity ccbasic-material="vertexColors: face; ignoreGlobalGlitch: 0.0" gltf-part="src: #environment; part: ground" id="ground"></a-entity>
       <a-entity ccbasic-material="instanced: true" instanced-gltf-part="src: #environment; part:trees"></a-entity>
       <a-entity ccbasic-material="instanced: true" instanced-gltf-part="src: #environment; part:props"></a-entity>
 
@@ -276,8 +276,8 @@
 
     </a-entity>
     
-    <a-entity light="type: directional; color: #FFF; intensity: 0.9" position="-0.5 1 1"></a-entity>
-    <a-entity light="type: ambient; color: #FFF; intensity: 0.6"></a-entity>
+    <a-entity id="dirLight" light="type: directional; color: #FFF; intensity: 0.9" position="-0.5 1 1"></a-entity>
+    <a-entity id="ambiLight" light="type: ambient; color: #FFF; intensity: 0.6"></a-entity>
 
   </a-scene>
 </body>

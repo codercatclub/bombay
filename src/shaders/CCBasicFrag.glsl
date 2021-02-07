@@ -21,7 +21,10 @@ uniform float opacity;
 #include <logdepthbuf_pars_fragment>
 #include <clipping_planes_pars_fragment>
 varying vec3 vViewPos;
+varying float glitchAmt;
 uniform float shouldGlitch;
+uniform float ignoreGlobalGlitch;
+
 void main() {
 	#include <clipping_planes_fragment>
 	vec4 diffuseColor = vec4( diffuse, opacity );
@@ -47,11 +50,12 @@ void main() {
 	#endif
 
 	vec3 fractBy3 = vec3(
-		floor(fract(.01 * timeMsec) + 0.5),
-		floor(fract(.01 * timeMsec+0.3) + 0.5),
-		floor(fract(.01 * timeMsec+0.6) + 0.5)
+		floor(fract(.0075 * timeMsec) + 0.5),
+		floor(fract(.0075 * timeMsec+0.3) + 0.5),
+		floor(fract(.0075 * timeMsec+0.6) + 0.5)
 	);
-	reflectedLight.indirectDiffuse.rgb += shouldGlitch*fractBy3;
+	//reflectedLight.indirectDiffuse.rgb += ignoreGlobalGlitch * max(glitchAmt, shouldGlitch)*fractBy3;
+	reflectedLight.indirectDiffuse.rgb = mix(reflectedLight.indirectDiffuse.rgb, fractBy3, ignoreGlobalGlitch * max(glitchAmt, shouldGlitch));
 
     reflectedLight.directDiffuse *= diffuseColor.rgb;
 
