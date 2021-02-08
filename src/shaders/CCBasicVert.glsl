@@ -50,10 +50,6 @@ void main() {
 	float noiseXZ = 0.5 + cnoise(.1*worldPosition.xz + 0.001*timeMsec);
 	worldPosition.xz += windAmt*(lerpY  +  lerpY*noiseXZ) * vec2(1.0,1.0);
 
-	//partial block effect? 
-
-
-
 	//GLITCH STATES
 	//(IF SHOULD GLITCH IS ON)
 	//(IF NOISE GLOBAL GLITCH IS HAPPENING)
@@ -69,8 +65,6 @@ void main() {
 	vec4 mvPosition = viewMatrix * worldPosition;
 	gl_Position = projectionMatrix * mvPosition;
 	#include <logdepthbuf_vertex>
-
-
 
 	#include <clipping_planes_vertex>
 	#include <envmap_vertex>

@@ -224,6 +224,7 @@
 
     <a-assets>
       <audio id="city-background-sound" src="assets/sounds/Dark_SciFi_Drone_Mixed_037.mp3" preload="auto"></audio>
+      <audio id="dog-sound" src="assets/sounds/dogBarks.mp3" preload="auto"></audio>
       <a-asset-item id="environment" src="assets/models/bb.glb"></a-asset-item>
       <a-asset-item id="dog" src="assets/models/dog.glb"></a-asset-item>
     </a-assets>
@@ -273,7 +274,8 @@
       <a-entity ccbasic-material="transparent: true;" gltf-part="src: #environment; part: fence_wire"></a-entity>
       
       <a-entity ccbasic-material chihuahua gltf-model="#dog"></a-entity>
-
+      <a-entity id="dog-bark" sound="src: #dog-sound; positional: true; autoplay:false; loop: false; volume: 0.75;"></a-entity>
+    
     </a-entity>
     
     <a-entity id="dirLight" light="type: directional; color: #FFF; intensity: 0.9" position="-0.5 1 1"></a-entity>
