@@ -130,11 +130,11 @@ export default {
         this.timeMoving += timeDelta;
       }
 
-      if(this.timeMoving > 2000.0) {
-        this.vAmt = 0.99 * this.vAmt + 0.01* this.moverComponent.moveAmt;
-      } else {
-        this.vAmt = 0.9 * this.vAmt;
-      }
+      // if(this.timeMoving > 2000.0) {
+      //   this.vAmt = 0.99 * this.vAmt + 0.01* this.moverComponent.moveAmt;
+      // } else {
+      //   this.vAmt = 0.9 * this.vAmt;
+      // }
       this.materialShaders.forEach(shader => {
         shader.uniforms.timeMsec.value = time;
         shader.uniforms.voxelSize.value = 5*(this.vAmt + 0.0001);
