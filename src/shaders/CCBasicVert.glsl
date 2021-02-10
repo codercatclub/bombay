@@ -59,8 +59,8 @@ void main() {
 
 
 	#ifdef SEA
-	float oNoise = cnoise(.01*worldPosition.xz + 0.0001*timeMsec);
-	colorAmt = seaAmt * pow(oNoise,4.0);
+	float oNoise = cnoise(vec2(0.003, 0.01)*worldPosition.xz + 0.0001*timeMsec);
+	colorAmt = seaAmt * pow(oNoise,3.0);
 	#endif
 
 	//GLITCH STATES
