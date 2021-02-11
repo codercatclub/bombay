@@ -12,6 +12,7 @@ export default {
     globalGlitchAmt: { default: 0 },
     windAmt: { default: 0.2 },
     ignoreGlobalGlitch: { default: 1 },
+    teleportProgress: { default: 0 },
     seaAmt: { default: 0 },
     color: { type: 'color', default: "#ffffff" },
     vertexColors: { type: 'string', default: '' },
