@@ -54,7 +54,7 @@ export default {
       let t = 0;
       while (t <= 1) {
         this.LerpEnvColors(from, to, t*t*t)
-        t += 0.002;
+        t += 0.003;
         yield;
       }
     };
