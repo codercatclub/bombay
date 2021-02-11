@@ -55,7 +55,7 @@ void main() {
 	//wind 
 	float lerpY = min(max(worldPosition.y,3.0),10.0) - 3.0;
 	float noiseXZ = 0.5 + cnoise(.1*worldPosition.xz + 0.001*timeMsec);
-	worldPosition.xz += windAmt*(lerpY  +  lerpY*noiseXZ) * vec2(1.0,1.0);
+	// worldPosition.xz += windAmt*(lerpY  +  lerpY*noiseXZ) * vec2(1.0,1.0);
 
 
 	#ifdef SEA
@@ -73,7 +73,7 @@ void main() {
 
 	//voxel
 	vec3 voxelPos = floor(worldPosition.xyz / vSize) * vSize; 
-	worldPosition.xyz = mix(worldPosition.xyz, voxelPos, 1.0);
+	// worldPosition.xyz = mix(worldPosition.xyz, voxelPos, 1.0);
 	
 	vec4 mvPosition = viewMatrix * worldPosition;
 	gl_Position = projectionMatrix * mvPosition;
