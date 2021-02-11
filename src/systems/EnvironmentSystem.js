@@ -28,6 +28,15 @@ export default {
         fog: new THREE.Color("#FFF"),
         shouldGlitch: 0,
         windAmt: 0.05
+      },
+      "TELEPORT" : {
+        dirLightColor: new THREE.Color("#ff00ff"),
+        ambiLightColor: new THREE.Color("#ffffff"),
+        horizonColor: new THREE.Color("#0000ff"),
+        zenithColor: new THREE.Color("#ff00ff"),
+        fog: new THREE.Color("#250bfb"),
+        shouldGlitch: 1,
+        windAmt: 0.2,
       }
     };
 
@@ -47,28 +56,36 @@ export default {
       }
     })
   },
-  toggleStorm: function() {
+  LerpEnvColors: function(from, to, t) {
 
-    this.storming = !this.storming;
-
-    let configVal = this.storming ? "STORM" : "DAY";
-    this.dirLight.color = this.colorConfig[configVal].dirLightColor
-    this.ambiLight.color = this.colorConfig[configVal].ambiLightColor
+    this.dirLight.color.copy(this.colorConfig[from].dirLightColor).lerp(this.colorConfig[to].dirLightColor, t);
+    this.ambiLight.color.copy(this.colorConfig[from].ambiLightColor).lerp(this.colorConfig[to].ambiLightColor, t);
 
     this.registeredMaterials.forEach((mat) => {
       mat.materialShaders.forEach((shader) => {
-        shader.uniforms["globalGlitchAmt"].value = this.colorConfig[configVal].shouldGlitch;
-        shader.uniforms["windAmt"].value = this.colorConfig[configVal].windAmt;
+        if(to == "TELEPORT"){
+          shader.uniforms["teleportProgress"].value = t;
+        }
+        shader.uniforms["globalGlitchAmt"].value = (1-t) * this.colorConfig[from].shouldGlitch +  t * this.colorConfig[to].shouldGlitch;
+        shader.uniforms["windAmt"].value = (1-t) * this.colorConfig[from].windAmt +  t * this.colorConfig[to].windAmt;
       })
     })
 
     if(this.sky){
-      this.sky.skyMaterial.uniforms.horizonColor.value = this.colorConfig[configVal].horizonColor;
-      this.sky.skyMaterial.uniforms.zenithColor.value = this.colorConfig[configVal].zenithColor;
+      this.sky.skyMaterial.uniforms.horizonColor.value.copy(this.colorConfig[from].horizonColor).lerp(this.colorConfig[to].horizonColor,t);
+      this.sky.skyMaterial.uniforms.zenithColor.value.copy(this.colorConfig[from].zenithColor).lerp(this.colorConfig[to].zenithColor,t);
     }
 
-    this.sceneEl.object3D.fog.color = this.colorConfig[configVal].fog;
+    this.sceneEl.object3D.fog.color.copy(this.colorConfig[from].fog).lerp(this.colorConfig[to].fog, t);
+
   },
+  toggleStorm: function() {
+    this.storming = !this.storming;
+    let toVal = this.storming ? "STORM" : "DAY";
+    let fromVal = this.storming ? "DAY": "STORM";
+    this.LerpEnvColors(fromVal, toVal, 1.0);
+  },
+
   registerMaterial: function(mat) {
     this.registeredMaterials.push(mat);
   },

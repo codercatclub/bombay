@@ -12,6 +12,7 @@
 
 varying vec3 vViewPos;
 varying float glitchAmt;
+uniform float teleportProgress;
 uniform float voxelSize;
 uniform float ignoreGlobalGlitch;
 uniform float windAmt;
@@ -70,12 +71,18 @@ void main() {
 	glitchAmt = ignoreGlobalGlitch * max(shouldGlitch, isGlobalGlitching*globalGlitchAmt);
 
 	float vSize = voxelSize + globalGlitchAmt * isGlobalGlitching * ignoreGlobalGlitch;
-
+    vSize = max(vSize, 0.001 + 6.0*teleportProgress);
+	// worldPosition.y += 10.0*teleportProgress*lerpY;
 	//voxel
 	vec3 voxelPos = floor(worldPosition.xyz / vSize) * vSize; 
 	// worldPosition.xyz = mix(worldPosition.xyz, voxelPos, 1.0);
 	
 	vec4 mvPosition = viewMatrix * worldPosition;
+
+
+	mvPosition.x *= 1.0 + 2.0*teleportProgress;
+	mvPosition.y *= (1.0 - teleportProgress);
+	// glitchAmt = isGlobalGlitching*teleportProgress;
 	gl_Position = projectionMatrix * mvPosition;
 	#include <logdepthbuf_vertex>
 

@@ -74,21 +74,27 @@ const Mover = {
       this.touchMove = false;
     });
 
+    //temp tele
+    window.addEventListener("keydown", (evt) => {
+      if(evt.code == "KeyL"){
+        this.Teleport(new THREE.Vector3(0,1,0));
+      }
+    })
     this.teleportCoroutine = function* () {
-      //fade in sphere
-      this.viewBlocker.visible = true;
+      //fade in progress event
+      let envSystem = this.el.sceneEl.systems["env-system"]
       let t = 0;
       while (t <= 1) {
-        this.viewBlocker.material.uniforms.cutOff.value = 1.0 - t;
-        t += 0.01;
+        envSystem.LerpEnvColors("DAY", "TELEPORT", t*t*t)
+        t += 0.0075;
         yield;
       }
-      this.viewBlocker.material.uniforms.cutOff.value = 0.0;
+      envSystem.LerpEnvColors("DAY", "TELEPORT", 1.0)
       // wait a few seconds
-      let d = Date.now();
-      while (Date.now() - d < 3000) {
-        yield;
-      }
+      // let d = Date.now();
+      // while (Date.now() - d < 3000) {
+      //   yield;
+      // }
       if (this.isVR) {
         this.cameraRig.position.copy(this.lastTelePos);
         this.cameraRig.rotation.y = Math.PI;
@@ -97,13 +103,13 @@ const Mover = {
         this.lookControls.yawObject.rotation.y = Math.PI;
       }
       yield;
-      //fade out sphere
+      //fade out progress event
       while (t >= 0) {
-        this.viewBlocker.material.uniforms.cutOff.value = 1.0 - t;
-        t -= 0.01;
+        envSystem.LerpEnvColors("DAY", "TELEPORT", t*t*t)
+        t -= 0.0075;
         yield;
       }
-      this.viewBlocker.visible = false;
+      envSystem.LerpEnvColors("DAY", "TELEPORT", 0.0)
     };
   },
 
@@ -188,7 +194,7 @@ const Mover = {
     if (this.teleportRoutine) {
       return;
     }
-    document.querySelector('#teleport-sound').components["sound"].playSound()
+    // document.querySelector('#teleport-sound').components["sound"].playSound()
     this.lastTelePos = pos;
     this.lastTelePos.y =
       calculateGroundHeight(this.lastTelePos, this.raycaster, this.terrain) +

@@ -22,6 +22,7 @@ uniform float opacity;
 #include <clipping_planes_pars_fragment>
 varying vec3 vViewPos;
 varying float glitchAmt;
+uniform float teleportProgress;
 uniform float shouldGlitch;
 uniform float ignoreGlobalGlitch;
 
@@ -69,7 +70,8 @@ void main() {
     reflectedLight.directDiffuse *= diffuseColor.rgb;
 
 	vec3 outgoingLight = reflectedLight.directDiffuse + reflectedLight.indirectDiffuse;
-
+	float fAmt = 20.0 - 18.0*(teleportProgress); // 20 colors to 15
+	outgoingLight = floor(fAmt*outgoingLight)/fAmt;
 
 	gl_FragColor = vec4( outgoingLight, diffuseColor.a );
 	#include <encodings_fragment>
