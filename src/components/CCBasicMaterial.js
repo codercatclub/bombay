@@ -10,7 +10,7 @@ export default {
     voxelSize: { default: 1 },
     shouldGlitch: { default: 0 },
     globalGlitchAmt: { default: 0 },
-    windAmt: { default: 0.2 },
+    windAmt: { default: 0.05 },
     ignoreGlobalGlitch: { default: 1 },
     teleportProgress: { default: 0 },
     seaAmt: { default: 0 },
@@ -131,7 +131,7 @@ export default {
 
   tick: function (time, timeDelta) {
     if (this.materialShaders.length > 0) {
-      if(this.moverComponent.moveAmt < 0.001){
+      if(this.moverComponent.moveAmt < 0.001 || this.moverComponent.teleportRoutine){
         this.timeMoving = 0.0
       } else {
         this.timeMoving += timeDelta;

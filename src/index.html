@@ -299,6 +299,10 @@
       <a-entity ccbasic-material gltf-part="src: #environment; part: logs"></a-entity>
       <a-entity ccbasic-material="instanced: true" instanced-gltf-part="src: #environment; part:props"></a-entity>
 
+      <!-- WARP POINTS -->
+      <a-entity ccbasic-material="shouldGlitch: 1" gltf-model="#dog" id="origin1" warp-point="exitWarpId: #origin2" scale ="3 3 3" position="5 0 0"></a-entity>
+      <a-entity ccbasic-material="shouldGlitch: 1" gltf-model="#dog" id="origin2" warp-point="exitWarpId: #origin1" scale ="3 3 3" position="122 0 -134"></a-entity>
+
       <a-entity ccbasic-material gltf-part="src: #environment; part: animal_house"></a-entity>
       <a-entity ccbasic-material="transparent: true; vertexColors: face;"
         gltf-part="src: #environment; part: fence_poles"></a-entity>

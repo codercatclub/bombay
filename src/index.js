@@ -13,6 +13,7 @@ import FBXLoader from './components/FBXLoader';
 import AnimationPlayer from './components/AnimationPlayer';
 import InstancedGLTFPart from './components/InstancedGLTFPart';
 import Chihuahua from './components/Chihuahua';
+import WarpPoint from './components/WarpPoint';
 
 import TestSystem from './systems/TestSystem';
 import SoundSystem from './systems/SoundSystem';
@@ -39,3 +40,4 @@ AFRAME.registerComponent('fbx', FBXLoader);
 AFRAME.registerComponent('animation-player', AnimationPlayer);
 AFRAME.registerComponent('instanced-gltf-part', InstancedGLTFPart);
 AFRAME.registerComponent('chihuahua', Chihuahua);
+AFRAME.registerComponent('warp-point', WarpPoint);

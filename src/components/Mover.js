@@ -85,8 +85,8 @@ const Mover = {
       let envSystem = this.el.sceneEl.systems["env-system"]
       let t = 0;
       while (t <= 1) {
-        envSystem.LerpEnvColors("DAY", "TELEPORT", t)
-        t += 0.01;
+        envSystem.LerpEnvColors("DAY", "TELEPORT", t*t*t)
+        t += 0.0075;
         yield;
       }
       envSystem.LerpEnvColors("DAY", "TELEPORT", 1.0)
@@ -105,8 +105,8 @@ const Mover = {
       yield;
       //fade out progress event
       while (t >= 0) {
-        envSystem.LerpEnvColors("DAY", "TELEPORT", t)
-        t -= 0.01;
+        envSystem.LerpEnvColors("DAY", "TELEPORT", t*t*t)
+        t -= 0.0075;
         yield;
       }
       envSystem.LerpEnvColors("DAY", "TELEPORT", 0.0)
