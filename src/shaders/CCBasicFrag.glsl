@@ -25,6 +25,11 @@ varying float glitchAmt;
 uniform float shouldGlitch;
 uniform float ignoreGlobalGlitch;
 
+#ifdef SEA
+uniform float seaAmt;
+varying float colorAmt;
+#endif
+
 void main() {
 	#include <clipping_planes_fragment>
 	vec4 diffuseColor = vec4( diffuse, opacity );
@@ -49,6 +54,11 @@ void main() {
 		}
 	#endif
 
+	#ifdef SEA
+		reflectedLight.indirectDiffuse += floor(5.0*5.0*colorAmt * mix(vec3(0.0,0.8,0.5), vec3(1.0,0.8,0.5), colorAmt))/5.0;
+		reflectedLight.indirectDiffuse = saturate(reflectedLight.indirectDiffuse);
+	#endif 
+	
 	vec3 fractBy3 = vec3(
 		floor(fract(.0075 * timeMsec) + 0.5),
 		floor(fract(.0075 * timeMsec+0.3) + 0.5),
@@ -56,7 +66,6 @@ void main() {
 	);
 	//reflectedLight.indirectDiffuse.rgb += ignoreGlobalGlitch * max(glitchAmt, shouldGlitch)*fractBy3;
 	reflectedLight.indirectDiffuse.rgb = mix(reflectedLight.indirectDiffuse.rgb, fractBy3, glitchAmt);
-
     reflectedLight.directDiffuse *= diffuseColor.rgb;
 
 	vec3 outgoingLight = reflectedLight.directDiffuse + reflectedLight.indirectDiffuse;

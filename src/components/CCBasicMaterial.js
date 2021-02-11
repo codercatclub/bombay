@@ -12,6 +12,7 @@ export default {
     globalGlitchAmt: { default: 0 },
     windAmt: { default: 0.2 },
     ignoreGlobalGlitch: { default: 1 },
+    seaAmt: { default: 0 },
     color: { type: 'color', default: "#ffffff" },
     vertexColors: { type: 'string', default: '' },
     instanced: { type: 'bool', default: false },
@@ -19,14 +20,15 @@ export default {
   },
 
   init: function () {
-    const { vertexColors, color, instanced, transparent } = this.data;
+    const { vertexColors, color, instanced, transparent, seaAmt } = this.data;
+    this.seaDefine = seaAmt > 0.0 ? "" : undefined;
     this.uniforms = this.initVariables(this.data);
     this.vAmt = 0.0;
 
     const materialOptions = {
       color: new THREE.Color(color),
       side: THREE.DoubleSide,
-      transparent: transparent
+      transparent: transparent,
     }
 
     switch (vertexColors) {
@@ -84,6 +86,9 @@ export default {
 
   createMaterial: function (materialOptions) {
     let mat = new THREE.MeshPhongMaterial(materialOptions);
+    mat.defines = {
+      "SEA": this.seaDefine
+    }
 
     mat.onBeforeCompile = (shader) => {
       shader.uniforms = THREE.UniformsUtils.merge([this.uniforms, shader.uniforms]);
@@ -131,11 +136,11 @@ export default {
         this.timeMoving += timeDelta;
       }
 
-      // if(this.timeMoving > 2000.0) {
-      //   this.vAmt = 0.99 * this.vAmt + 0.01* this.moverComponent.moveAmt;
-      // } else {
-      //   this.vAmt = 0.9 * this.vAmt;
-      // }
+      if(this.timeMoving > 2000.0) {
+        this.vAmt = 0.99 * this.vAmt + 0.01* this.moverComponent.moveAmt;
+      } else {
+        this.vAmt = 0.9 * this.vAmt;
+      }
       this.materialShaders.forEach(shader => {
         shader.uniforms.timeMsec.value = time;
         shader.uniforms.voxelSize.value = 5*(this.vAmt + 0.0001);

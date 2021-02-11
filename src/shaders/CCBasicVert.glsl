@@ -17,6 +17,12 @@ uniform float ignoreGlobalGlitch;
 uniform float windAmt;
 uniform float globalGlitchAmt;
 uniform float shouldGlitch;
+
+#ifdef SEA
+uniform float seaAmt;
+varying float colorAmt;
+#endif
+
 void main() {
 	#include <uv_vertex>
 
@@ -45,10 +51,17 @@ void main() {
 
 	// worldPosition.xyz = mix(worldPosition.xyz, voxelPos, 0.5 + 0.5*sin(0.0005*timeMsec));
 
+
 	//wind 
 	float lerpY = min(max(worldPosition.y,3.0),10.0) - 3.0;
 	float noiseXZ = 0.5 + cnoise(.1*worldPosition.xz + 0.001*timeMsec);
 	worldPosition.xz += windAmt*(lerpY  +  lerpY*noiseXZ) * vec2(1.0,1.0);
+
+
+	#ifdef SEA
+	float oNoise = cnoise(vec2(0.003, 0.01)*worldPosition.xz + 0.0001*timeMsec);
+	colorAmt = seaAmt * pow(oNoise,3.0);
+	#endif
 
 	//GLITCH STATES
 	//(IF SHOULD GLITCH IS ON)
