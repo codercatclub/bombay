@@ -81,6 +81,7 @@ export default {
     this.timeMoving = 0.0;
 
   },
+
   createMaterial: function (materialOptions) {
     let mat = new THREE.MeshPhongMaterial(materialOptions);
 
@@ -96,6 +97,7 @@ export default {
     };
     return mat;
   },
+
   initVariables: function (data, type) {
     let key;
     let variables = {};
@@ -118,7 +120,6 @@ export default {
         shader.uniforms[key].value = data[key];
         shader.uniforms[key].needsUpdate = true;
       })
-      
     }
   },
 

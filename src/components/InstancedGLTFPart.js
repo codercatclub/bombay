@@ -1,70 +1,109 @@
-import AFRAME from 'aframe';
+import AFRAME from "aframe";
 const THREE = AFRAME.THREE;
 
 export default {
-    schema: {
-        part: { type: 'string' },
-        src: { type: 'asset' }
-    },
-    init: function () {
-        let part = this.data.part;
-        let dummy = new THREE.Object3D();
-        new THREE.GLTFLoader().load(this.data.src, (gltfModel) => {
-            let scene = gltfModel.scene;
-            let baseObject = scene.getObjectByName(part);
+  schema: {
+    part: { type: "string" },
+    src: { type: "asset" },
+  },
 
-            let parentObject = new THREE.Object3D();
+  init: function () {
+    const part = this.data.part;
+    const dummy = new THREE.Object3D();
+  
+    new THREE.GLTFLoader().load(
+      this.data.src,
+      (gltfModel) => {
+        const scene = gltfModel.scene;
+        const baseObject = scene.getObjectByName(part);
 
-            //make an array of each mesh name to its instanced mesh
-            let instancedMeshes = []
-            baseObject.children.forEach((child) => {
-                if(child.name !== "instances"){
-                    let name = child.name.charAt(child.name.length-1);
-                    instancedMeshes[parseInt(name)] = {
-                        mesh: child,
-                        iMesh: 0,
-                        count: 0,
-                        curIdx: 0
-                    };
-                }
-            });
-            let baseInstances = baseObject.getObjectByName("instances").geometry;
-            let pos = baseInstances.attributes.position.array;
-            let scale = baseInstances.attributes._pscale.array;
-            let orient = baseInstances.attributes._orient.array;
-            let type = baseInstances.attributes._type.array;
-            let totalCount = baseInstances.attributes._type.count;
+        const parentObject = new THREE.Object3D();
 
-            for (let x = 0; x < totalCount; x+=3) {
-                instancedMeshes[type[x]].count ++
-            }
-            instancedMeshes.forEach( meshGroup =>  {
-                let mesh = meshGroup.mesh;
-                let count = meshGroup.count;
-                meshGroup.iMesh = new THREE.InstancedMesh( mesh.geometry, mesh.material, count );
-                meshGroup.iMesh.frustumCulled = false;
-                meshGroup.iMesh.instanceMatrix.setUsage( THREE.DynamicDrawUsage );
+        // Make an array of each mesh name to its instanced mesh
+        const instancedMeshes = [];
+        baseObject.children.forEach((child) => {
+          if (child.name !== "instances") {
+            let name = child.name.charAt(child.name.length - 1);
+            instancedMeshes[parseInt(name)] = {
+              mesh: child,
+              iMesh: 0,
+              count: 0,
+              curIdx: 0,
+            };
+          }
+        });
 
-            })
+        const baseInstances = baseObject.getObjectByName("instances").geometry;
+        const pos = baseInstances.attributes.position.array;
 
-            for (let x = 0; x < totalCount; x+=3) {
-                dummy.position.set(pos[3*x], pos[3*x+1], pos[3*x+2]);
-                dummy.scale.set(scale[x], scale[x], scale[x]);
-                dummy.quaternion.set(orient[4*x], orient[4*x+1], orient[4*x+2], orient[4*x+3]);
-                dummy.updateMatrix();
+        const {
+          _orient: orient,
+          _pscale: pscale,
+          _type: type,
+        } = baseInstances.attributes;
 
-                let meshName = type[x];
-                let idx = instancedMeshes[meshName].curIdx;
-                instancedMeshes[meshName].iMesh.setMatrixAt(idx, dummy.matrix);
-                instancedMeshes[meshName].curIdx++;
-            }
+        if (!type) {
+          console.log('[!] Attribute "type" is required for instance GLTF meshes.')
+          return;
+        }
+  
+        const instanceType = type.array;
+        const totalCount = type.count;
 
-            instancedMeshes.forEach( meshGroup =>  {
-                meshGroup.iMesh.instanceMatrix.needsUpdate = true;
-                parentObject.add(meshGroup.iMesh)
-            })
+        for (let x = 0; x < totalCount; x += 3) {
+          instancedMeshes[instanceType[x]].count++;
+        }
+      
+        instancedMeshes.forEach((meshGroup) => {
+          let mesh = meshGroup.mesh;
+          let count = meshGroup.count;
+          meshGroup.iMesh = new THREE.InstancedMesh(
+            mesh.geometry,
+            mesh.material,
+            count
+          );
+          meshGroup.iMesh.frustumCulled = false;
+          meshGroup.iMesh.instanceMatrix.setUsage(THREE.DynamicDrawUsage);
+        });
 
-            this.el.setObject3D('mesh', parentObject);
-          }, function () { }, console.error);
-    },
+        for (let x = 0; x < totalCount; x += 3) {
+          dummy.position.set(pos[3 * x], pos[3 * x + 1], pos[3 * x + 2]);
+
+          // Set instance scale
+          if (pscale) {
+            const { array } = pscale;
+            dummy.scale.set(array[x], array[x], array[x]);
+          }
+          
+          // Set instance orientation
+          if (orient) {
+            const { array } = orient;
+            dummy.quaternion.set(
+              array[4 * x],
+              array[4 * x + 1],
+              array[4 * x + 2],
+              array[4 * x + 3]
+            );
+          }
+
+          dummy.updateMatrix();
+
+          const meshName = instanceType[x];
+          const idx = instancedMeshes[meshName].curIdx;
+      
+          instancedMeshes[meshName].iMesh.setMatrixAt(idx, dummy.matrix);
+          instancedMeshes[meshName].curIdx++;
+        }
+
+        instancedMeshes.forEach((meshGroup) => {
+          meshGroup.iMesh.instanceMatrix.needsUpdate = true;
+          parentObject.add(meshGroup.iMesh);
+        });
+
+        this.el.setObject3D("mesh", parentObject);
+      },
+      function () {}, // Progress
+      console.error
+    );
+  },
 };

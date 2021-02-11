@@ -237,7 +237,7 @@
 
 
     <a-entity id="cameraRig">
-      <a-entity id="camera" position="0 1.6 0" camera wasd-controls="acceleration: 800" look-controls quick-turn mover>
+      <a-entity id="camera" position="0 1.6 0" camera wasd-controls="acceleration: 300" look-controls quick-turn mover>
       </a-entity>
       <a-entity oculus-go-controls></a-entity>
       <a-entity id="leftHandContloller" oculus-touch-controls="hand: left; orientationOffset: 0 0 0;"></a-entity>
@@ -275,6 +275,10 @@
         gltf-part="src: #environment; part: ground_far"></a-entity>
       <a-entity ccbasic-material="vertexColors: face;" gltf-part="src: #environment; part: berm"></a-entity>
       <a-entity ccbasic-material="vertexColors: face;" gltf-part="src: #environment; part: lake"></a-entity>
+      
+      <a-entity ccbasic-material="vertexColors: face;" gltf-part="src: #environment; part: pole_wires"></a-entity>
+      <a-entity ccbasic-material="instanced: true" instanced-gltf-part="src: #environment; part: poles">
+      </a-entity>
 
       <!-- BUILDINGS -->
       <a-entity ccbasic-material gltf-part="src: #environment; part: opera_house"></a-entity>
