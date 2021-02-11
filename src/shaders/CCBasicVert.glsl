@@ -72,10 +72,10 @@ void main() {
 
 	float vSize = voxelSize + globalGlitchAmt * isGlobalGlitching * ignoreGlobalGlitch;
     vSize = max(vSize, 0.001 + 6.0*teleportProgress);
-	// worldPosition.y += 10.0*teleportProgress*lerpY;
+	worldPosition.y += 10.0*teleportProgress*lerpY;
 	//voxel
 	vec3 voxelPos = floor(worldPosition.xyz / vSize) * vSize; 
-	// worldPosition.xyz = mix(worldPosition.xyz, voxelPos, 1.0);
+	worldPosition.xyz = mix(worldPosition.xyz, voxelPos, 1.0);
 	
 	vec4 mvPosition = viewMatrix * worldPosition;
 
