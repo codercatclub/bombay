@@ -1,5 +1,6 @@
 import AFRAME from 'aframe';
 const THREE = AFRAME.THREE;
+import { doRoutine } from "../Utils";
 
 //this system should have a reference to all the cc basic materials
 
@@ -49,7 +50,14 @@ export default {
     ambiLight.addEventListener("object3dset", (event) => {
       this.ambiLight = event.target.object3D.children[0];
     })
-
+    this.fadeEnvCoroutine = function* (from, to) {
+      let t = 0;
+      while (t <= 1) {
+        this.LerpEnvColors(from, to, t*t*t)
+        t += 0.002;
+        yield;
+      }
+    };
     window.addEventListener("keydown", (evt) => {
       if(evt.code == "KeyT"){
         this.toggleStorm();
@@ -60,7 +68,6 @@ export default {
 
     this.dirLight.color.copy(this.colorConfig[from].dirLightColor).lerp(this.colorConfig[to].dirLightColor, t);
     this.ambiLight.color.copy(this.colorConfig[from].ambiLightColor).lerp(this.colorConfig[to].ambiLightColor, t);
-
     this.registeredMaterials.forEach((mat) => {
       mat.materialShaders.forEach((shader) => {
         if(to == "TELEPORT"){
@@ -80,10 +87,13 @@ export default {
 
   },
   toggleStorm: function() {
+    if (this.fadeEnvRoutine) {
+      return;
+    }
     this.storming = !this.storming;
     let toVal = this.storming ? "STORM" : "DAY";
     let fromVal = this.storming ? "DAY": "STORM";
-    this.LerpEnvColors(fromVal, toVal, 1.0);
+    this.fadeEnvRoutine = this.fadeEnvCoroutine(fromVal, toVal);
   },
 
   registerMaterial: function(mat) {
@@ -93,6 +103,12 @@ export default {
     if(!this.sky){
       this.sky = document.querySelector('#sky').components["sky-material"]
     } 
+
+    if (this.fadeEnvRoutine) {
+      if (doRoutine(this.fadeEnvRoutine)) {
+        this.fadeEnvRoutine = null;
+      }
+    }
     //Current Env Effects
     //-Wind & storm
     //-Total Glitch effect

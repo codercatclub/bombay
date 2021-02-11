@@ -14,6 +14,7 @@ import AnimationPlayer from './components/AnimationPlayer';
 import InstancedGLTFPart from './components/InstancedGLTFPart';
 import Chihuahua from './components/Chihuahua';
 import WarpPoint from './components/WarpPoint';
+import StormTriggerPoint from './components/StormTriggerPoint';
 
 import TestSystem from './systems/TestSystem';
 import SoundSystem from './systems/SoundSystem';
@@ -41,3 +42,4 @@ AFRAME.registerComponent('animation-player', AnimationPlayer);
 AFRAME.registerComponent('instanced-gltf-part', InstancedGLTFPart);
 AFRAME.registerComponent('chihuahua', Chihuahua);
 AFRAME.registerComponent('warp-point', WarpPoint);
+AFRAME.registerComponent('storm-trigger-point', StormTriggerPoint);

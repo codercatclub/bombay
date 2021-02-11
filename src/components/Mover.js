@@ -84,12 +84,13 @@ const Mover = {
       //fade in progress event
       let envSystem = this.el.sceneEl.systems["env-system"]
       let t = 0;
+      let curMode = envSystem.storming ? "STORM" : "DAY";
       while (t <= 1) {
-        envSystem.LerpEnvColors("DAY", "TELEPORT", t*t*t)
+        envSystem.LerpEnvColors(curMode, "TELEPORT", t*t*t)
         t += 0.0075;
         yield;
       }
-      envSystem.LerpEnvColors("DAY", "TELEPORT", 1.0)
+      envSystem.LerpEnvColors(curMode, "TELEPORT", 1.0)
       // wait a few seconds
       // let d = Date.now();
       // while (Date.now() - d < 3000) {
@@ -105,11 +106,11 @@ const Mover = {
       yield;
       //fade out progress event
       while (t >= 0) {
-        envSystem.LerpEnvColors("DAY", "TELEPORT", t*t*t)
+        envSystem.LerpEnvColors(curMode, "TELEPORT", t*t*t)
         t -= 0.0075;
         yield;
       }
-      envSystem.LerpEnvColors("DAY", "TELEPORT", 0.0)
+      envSystem.LerpEnvColors(curMode, "TELEPORT", 0.0)
     };
   },
 
