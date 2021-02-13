@@ -32,6 +32,8 @@ const WarpPoint = {
     {
       this.moverComponent.Teleport(new THREE.Vector3(this.data.triggerRadius + 0.1,0,0).add(this.exitPoint), this.exitDir);
     }
+
+    this.el.object3D.rotation.y += 0.001*timeDelta;
   },
 };
 

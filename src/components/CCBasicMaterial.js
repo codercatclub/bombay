@@ -137,7 +137,7 @@ export default {
         this.timeMoving += timeDelta;
       }
 
-      if(this.timeMoving > 2000.0) {
+      if(this.timeMoving > 5000.0) {
         this.vAmt = 0.99 * this.vAmt + 0.01* this.moverComponent.moveAmt;
       } else {
         this.vAmt = 0.9 * this.vAmt;

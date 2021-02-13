@@ -113,8 +113,9 @@ export default {
           this.moverComponent.camera.getWorldDirection(this.camForward);
           this.camForward.y = 0.0;
           this.lookRotation(this.camForward, this.nextRotation);
+          let randomOffset = new THREE.Vector3(Math.random()-0.5, 0.0, Math.random()-0.5).multiplyScalar(3);
 
-          this.nextTarget.add(this.camForward.clone().multiplyScalar(-5));
+          this.nextTarget.add(this.camForward.clone().multiplyScalar(-5).add(randomOffset));
         }
 
         if(time > this.nextSpinTime) {
@@ -139,7 +140,7 @@ export default {
     this.updateGlitchState(time);
 
 
-    this.tweenForward.lerp(this.nextTarget, 0.1);
+    this.tweenForward.lerp(this.nextTarget, 0.05);
     this.chihuahuaMesh.position.copy(this.tweenForward)
     this.chihuahuaMesh.quaternion.slerp(this.nextRotation, 0.1);
     this.chihuahuaMesh.position.y = -0.5 + 0.25 * Math.sin(0.02 * time);
