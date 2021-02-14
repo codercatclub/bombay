@@ -187,7 +187,7 @@
   <!-- Order does matter here! Bundle should be loaded after loading screen but before main scene.-->
   <script src="bundle.js"></script>
 
-  <a-scene env-system renderer="colorManagement: true; physicallyCorrectLights: true; sortObjects: true"
+  <a-scene env-system test-system renderer="colorManagement: true; physicallyCorrectLights: true; sortObjects: true"
     background="color: white" fog="type: exponential; density: 0.002; color: #ffffff" loading-screen="enabled: false">
 
     <!-- Tutorial UI -->
@@ -227,6 +227,7 @@
       <audio id="dog-sound" src="assets/sounds/dogBarks.mp3" preload="auto"></audio>
       <a-asset-item id="environment" src="assets/models/bb.glb"></a-asset-item>
       <a-asset-item id="dog" src="assets/models/dog.glb"></a-asset-item>
+      <video id="meaning-of-life" autoplay muted loop="true" src="assets/videos/meaning-of-life.mp4"></video>
     </a-assets>
 
     <a-entity id="background-sound"
@@ -267,7 +268,7 @@
         <a-entity ccbasic-material gltf-part="src: #environment; part: patch2_03"></a-entity>
         <a-entity ccbasic-material gltf-part="src: #environment; part: patch1_04"></a-entity>
       </a-entity>
-      <a-entity ccbasic-material="vertexColors: face; ignoreGlobalGlitch: 0.0"
+      <a-entity ccbasic-material="vevrtexColors: face; ignoreGlobalGlitch: 0.0"
         gltf-part="src: #environment; part: hills"></a-entity>
       <a-entity ccbasic-material="vertexColors: face; ignoreGlobalGlitch: 0.0"
         gltf-part="src: #environment; part: ground" id="ground"></a-entity>
@@ -280,6 +281,8 @@
       <a-entity ccbasic-material="instanced: true" instanced-gltf-part="src: #environment; part: poles">
       </a-entity>
       <a-entity ccbasic-material="color:#0993f5; seaAmt: 1.0;" gltf-part="src: #environment; part: lake"></a-entity>
+
+      <a-video src="#meaning-of-life" ccbasic-material width="9" height="9" position="0 3 0" positional-video ></a-video>
 
       <!-- BUILDINGS -->
       <a-entity ccbasic-material gltf-part="src: #environment; part: opera_house"></a-entity>
