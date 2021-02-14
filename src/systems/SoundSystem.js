@@ -41,11 +41,14 @@ Object.size = function (obj) {
 
 export default {
   init: function () {
-    this.entities = document.querySelectorAll("a-entity[sound]");
+    this.soundEntities = document.querySelectorAll("a-entity[sound]");
+    this.videoEntities = document.querySelectorAll("video");
+
     this.muted = true;
     this.sounds = {};
 
-    this.entities.forEach((el) => {
+    // Store volume for all audio
+    this.soundEntities.forEach((el) => {
       el.addEventListener("object3dset", (event) => {
         const sound = event.target.components["sound"];
         const id = el.getAttribute("id");
@@ -58,11 +61,25 @@ export default {
         // Mute all sounds on start
         el.setAttribute("sound", { volume: 0 });
 
-        if (this.entities.length === Object.size(this.sounds)) {
+        const numEntities =
+          this.soundEntities.length + this.videoEntities.length;
+
+        if (numEntities === Object.size(this.sounds)) {
           console.log("All sounds are loaded!");
           this.addSoundButton();
         }
       });
+    });
+
+    // Store volume for all videos
+    this.videoEntities.forEach((vid) => {
+      const id = vid.getAttribute("id");
+
+      this.sounds[id] = {
+        volume: vid.volume,
+      };
+
+      vid.volume = 0.0;
     });
   },
 
@@ -86,7 +103,7 @@ export default {
     div.setAttribute("class", "soundBtn");
 
     div.innerHTML = noSoundSVG;
-    div.addEventListener('click', () => {
+    div.addEventListener("click", () => {
       this.setSound(false);
     });
 
@@ -101,7 +118,7 @@ export default {
       this.iconDiv.innerHTML = soundSVG;
 
       // Unmute and play all sounds
-      this.entities.forEach((el) => {
+      this.soundEntities.forEach((el) => {
         const id = el.getAttribute("id");
         const sound = el.components.sound;
 
@@ -112,13 +129,25 @@ export default {
         // Restore sound volume
         el.setAttribute("sound", { volume: this.sounds[id].volume });
       });
+
+      // Restore volume on all videos
+      this.videoEntities.forEach((vid) => {
+        const id = vid.getAttribute("id");
+        vid.volume = this.sounds[id].volume;
+      });
+
       this.muted = false;
     } else {
       this.iconDiv.innerHTML = noSoundSVG;
 
       // Mute all sounds
-      this.entities.forEach((el) => {
+      this.soundEntities.forEach((el) => {
         el.setAttribute("sound", { volume: 0 });
+      });
+
+      // Mute all videos
+      this.videoEntities.forEach((vid) => {
+        vid.volume = 0.0;
       });
 
       this.muted = true;
@@ -126,10 +155,11 @@ export default {
   },
 
   registerMe: function (el) {
-    this.entities.push(el);
+    this.soundEntities.push(el);
   },
+
   unregisterMe: function (el) {
-    var index = this.entities.indexOf(el);
-    this.entities.splice(index, 1);
+    var index = this.soundEntities.indexOf(el);
+    this.soundEntities.splice(index, 1);
   },
 };
