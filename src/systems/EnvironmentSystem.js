@@ -54,7 +54,7 @@ export default {
       let t = 0;
       while (t <= 1) {
         this.LerpEnvColors(from, to, t*t*t)
-        t += 0.003;
+        t += this.deltaTimeSec/5.66;
         yield;
       }
     };
@@ -103,12 +103,14 @@ export default {
     if(!this.sky){
       this.sky = document.querySelector('#sky').components["sky-material"]
     } 
+    this.deltaTimeSec = timeDelta/1000;
 
     if (this.fadeEnvRoutine) {
       if (doRoutine(this.fadeEnvRoutine)) {
         this.fadeEnvRoutine = null;
       }
     }
+
     //Current Env Effects
     //-Wind & storm
     //-Total Glitch effect

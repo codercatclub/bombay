@@ -87,7 +87,7 @@ const Mover = {
       let curMode = envSystem.storming ? "STORM" : "DAY";
       while (t <= 1) {
         envSystem.LerpEnvColors(curMode, "TELEPORT", t*t*t)
-        t += 0.0075;
+        t += this.deltaTimeSec/2.267;
         yield;
       }
       envSystem.LerpEnvColors(curMode, "TELEPORT", 1.0)
@@ -107,7 +107,7 @@ const Mover = {
       //fade out progress event
       while (t >= 0) {
         envSystem.LerpEnvColors(curMode, "TELEPORT", t*t*t)
-        t -= 0.0075;
+        t -= this.deltaTimeSec/2.267;
         yield;
       }
       envSystem.LerpEnvColors(curMode, "TELEPORT", 0.0)
@@ -115,6 +115,7 @@ const Mover = {
   },
 
   tick: function (time, timeDelta) {
+    this.deltaTimeSec = timeDelta/1000;
     let prevPos = this.lastCameraPosition.clone();
 
     if (this.teleportRoutine) {
