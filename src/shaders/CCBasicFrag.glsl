@@ -35,7 +35,18 @@ void main() {
 	#include <clipping_planes_fragment>
 	vec4 diffuseColor = vec4( diffuse, opacity );
 	#include <logdepthbuf_fragment>
-	#include <map_fragment>
+	float usePosterize = step(0.01, basePosterize+teleportProgress);
+	float useBasePosterize = step(0.01, basePosterize);
+	float telePosterize = 10.0 - 8.0*teleportProgress;
+	float fAmt = mix(telePosterize, min(telePosterize,basePosterize), useBasePosterize);
+
+#ifdef USE_MAP
+	vec2 modUv = vUv.xy;
+	modUv = mix(vUv.xy, floor(modUv.xy*10.0*fAmt)/(10.0*fAmt), usePosterize);
+ 	vec4 texelColor = texture2D( map, modUv );
+ 	texelColor = mapTexelToLinear( texelColor );
+ 	diffuseColor *= texelColor;
+ #endif
 	#include <color_fragment>
 	ReflectedLight reflectedLight = ReflectedLight( vec3( 0.0 ), vec3( 0.0 ), vec3( 0.0 ), vec3( 0.0 ) );
 	reflectedLight.indirectDiffuse += getAmbientLightIrradiance(ambientLightColor);
@@ -70,11 +81,7 @@ void main() {
     reflectedLight.directDiffuse *= diffuseColor.rgb;
 
 	vec3 outgoingLight = reflectedLight.directDiffuse + reflectedLight.indirectDiffuse;
-	float useBasePosterize = step(0.01, basePosterize);
-	float telePosterize = 10.0 - 8.0*teleportProgress;
-	float fAmt = mix(telePosterize, min(telePosterize,basePosterize), useBasePosterize);
 
-	float usePosterize = step(0.01, basePosterize+teleportProgress);
 	outgoingLight = mix(outgoingLight, floor(fAmt*outgoingLight)/fAmt, usePosterize);
 
 	gl_FragColor = vec4( outgoingLight, diffuseColor.a);
