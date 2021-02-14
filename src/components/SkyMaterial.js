@@ -5,7 +5,9 @@ import SkyVert from '../shaders/SkyVert.glsl';
 export default {
   init: function () {
     //#4bd6ff
-    const noiseTexture = new THREE.TextureLoader().load('/assets/noise.jpg');
+    // TODO (Kirill): This need to be loaded with asset manager
+    const noiseTexture = new THREE.TextureLoader().load('assets/noise.jpg');
+    
     this.skyMaterial = new THREE.ShaderMaterial({
       uniforms: {
         noise: {
