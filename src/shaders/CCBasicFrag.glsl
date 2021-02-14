@@ -25,7 +25,7 @@ varying float glitchAmt;
 uniform float teleportProgress;
 uniform float shouldGlitch;
 uniform float ignoreGlobalGlitch;
-
+uniform float basePosterize;
 #ifdef SEA
 uniform float seaAmt;
 varying float colorAmt;
@@ -70,10 +70,14 @@ void main() {
     reflectedLight.directDiffuse *= diffuseColor.rgb;
 
 	vec3 outgoingLight = reflectedLight.directDiffuse + reflectedLight.indirectDiffuse;
-	float fAmt = 20.0 - 18.0*(teleportProgress); // 20 colors to 15
-	outgoingLight = floor(fAmt*outgoingLight)/fAmt;
+	float useBasePosterize = step(0.01, basePosterize);
+	float telePosterize = 10.0 - 8.0*teleportProgress;
+	float fAmt = mix(telePosterize, min(telePosterize,basePosterize), useBasePosterize);
 
-	gl_FragColor = vec4( outgoingLight, diffuseColor.a );
+	float usePosterize = step(0.01, basePosterize+teleportProgress);
+	outgoingLight = mix(outgoingLight, floor(fAmt*outgoingLight)/fAmt, usePosterize);
+
+	gl_FragColor = vec4( outgoingLight, diffuseColor.a);
 	#include <encodings_fragment>
 	@import ./FogFrag;
 	#include <premultiplied_alpha_fragment>

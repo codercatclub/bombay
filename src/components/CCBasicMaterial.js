@@ -13,6 +13,7 @@ export default {
     windAmt: { default: 0.05 },
     ignoreGlobalGlitch: { default: 1 },
     teleportProgress: { default: 0 },
+    basePosterize: { default: 0 },
     seaAmt: { default: 0 },
     color: { type: "color", default: "#ffffff" },
     vertexColors: { type: "string", default: "" },
