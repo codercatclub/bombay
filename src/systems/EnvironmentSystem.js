@@ -58,11 +58,6 @@ export default {
         yield;
       }
     };
-    window.addEventListener("keydown", (evt) => {
-      if(evt.code == "KeyT"){
-        this.toggleStorm();
-      }
-    })
   },
   LerpEnvColors: function(from, to, t) {
 

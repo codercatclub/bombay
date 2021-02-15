@@ -75,7 +75,7 @@ export default {
   setChildMaterials: function () {
     const { instanced } = this.data;
     this.el.object3D.traverse((child) => {
-      if (child.type === "Mesh") {
+      if (child.type === "Mesh" && child.name !== "collider") {
         let mat;
         if (!instanced) {
           mat = this.basicMats[0];
