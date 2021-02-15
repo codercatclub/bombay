@@ -33,14 +33,20 @@ export default {
           }
         });
 
-        const baseInstances = baseObject.getObjectByName("instances").geometry;
-        const pos = baseInstances.attributes.position.array;
+        const baseInstances = baseObject.getObjectByName("instances");
+
+        if (!baseInstances) {
+          console.log('Missing instance points for', baseObject.name)
+        }
+
+        const instancePoints = baseInstances.geometry;
 
         const {
+          position: { array: pos },
           _orient: orient,
           _pscale: pscale,
           _type: type,
-        } = baseInstances.attributes;
+        } = instancePoints.attributes;
 
         if (!type) {
           console.log('[!] Attribute "type" is required for instance GLTF meshes.')

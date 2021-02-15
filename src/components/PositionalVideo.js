@@ -4,7 +4,7 @@ const THREE = AFRAME.THREE;
 /** Play video base on player distance to the object */
 export default {
   schema: {
-    triggerRadius: { default: 10 },
+    triggerRadius: { default: 5 },
   },
 
   init: function () {
