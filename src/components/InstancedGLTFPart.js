@@ -10,7 +10,7 @@ export default {
   init: function () {
     const part = this.data.part;
     const dummy = new THREE.Object3D();
-  
+
     new THREE.GLTFLoader().load(
       this.data.src,
       (gltfModel) => {
@@ -21,8 +21,11 @@ export default {
 
         // Make an array of each mesh name to its instanced mesh
         const instancedMeshes = [];
+        let collider;
         baseObject.children.forEach((child) => {
-          if (child.name !== "instances") {
+          if (child.name == "collider") {
+            collider = child;
+          } else if (child.name !== "instances") {
             let name = child.name.charAt(child.name.length - 1);
             instancedMeshes[parseInt(name)] = {
               mesh: child,
@@ -33,10 +36,14 @@ export default {
           }
         });
 
+        if (collider) {
+          parentObject.add(collider);
+        }
+
         const baseInstances = baseObject.getObjectByName("instances");
 
         if (!baseInstances) {
-          console.log('Missing instance points for', baseObject.name)
+          console.log("Missing instance points for", baseObject.name);
         }
 
         const instancePoints = baseInstances.geometry;
@@ -49,17 +56,18 @@ export default {
         } = instancePoints.attributes;
 
         if (!type) {
-          console.log('[!] Attribute "type" is required for instance GLTF meshes.')
+          console.log(
+            '[!] Attribute "type" is required for instance GLTF meshes.'
+          );
           return;
         }
-  
+
         const instanceType = type.array;
         const totalCount = type.count;
-
         for (let x = 0; x < totalCount; x += 3) {
           instancedMeshes[instanceType[x]].count++;
         }
-      
+
         instancedMeshes.forEach((meshGroup) => {
           let mesh = meshGroup.mesh;
           let count = meshGroup.count;
@@ -80,7 +88,7 @@ export default {
             const { array } = pscale;
             dummy.scale.set(array[x], array[x], array[x]);
           }
-          
+
           // Set instance orientation
           if (orient) {
             const { array } = orient;
@@ -96,7 +104,7 @@ export default {
 
           const meshName = instanceType[x];
           const idx = instancedMeshes[meshName].curIdx;
-      
+
           instancedMeshes[meshName].iMesh.setMatrixAt(idx, dummy.matrix);
           instancedMeshes[meshName].curIdx++;
         }
@@ -105,7 +113,6 @@ export default {
           meshGroup.iMesh.instanceMatrix.needsUpdate = true;
           parentObject.add(meshGroup.iMesh);
         });
-
         this.el.setObject3D("mesh", parentObject);
       },
       function () {}, // Progress
