@@ -42,10 +42,15 @@ void main() {
 
 #ifdef USE_MAP
 	vec2 modUv = vUv.xy;
-	modUv = mix(vUv.xy, floor(modUv.xy*10.0*fAmt)/(10.0*fAmt), usePosterize);
+	modUv = mix(vUv.xy, floor(modUv.xy*10.0*fAmt+0.2)/(10.0*fAmt), usePosterize);
  	vec4 texelColor = texture2D( map, modUv );
  	texelColor = mapTexelToLinear( texelColor );
+
+
  	diffuseColor *= texelColor;
+	diffuseColor = mix(diffuseColor, floor(fAmt*diffuseColor)/fAmt, usePosterize);
+
+
  #endif
 	#include <color_fragment>
 	ReflectedLight reflectedLight = ReflectedLight( vec3( 0.0 ), vec3( 0.0 ), vec3( 0.0 ), vec3( 0.0 ) );
@@ -82,7 +87,7 @@ void main() {
 
 	vec3 outgoingLight = reflectedLight.directDiffuse + reflectedLight.indirectDiffuse;
 
-	outgoingLight = mix(outgoingLight, floor(fAmt*outgoingLight)/fAmt, usePosterize);
+	// outgoingLight = mix(outgoingLight, floor(fAmt*outgoingLight)/fAmt, usePosterize);
 
 	gl_FragColor = vec4( outgoingLight, diffuseColor.a);
 	#include <encodings_fragment>

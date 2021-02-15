@@ -22,7 +22,7 @@ const moveTowardsFlat = function (vec1, vec2, t) {
 const calculateGroundHeight = function(pos, raycaster, terrain) {
     ORIGIN.set(pos.x, 40, pos.z);
     raycaster.set(ORIGIN, DOWN);
-    let intersects = raycaster.intersectObject(terrain);
+    let intersects = raycaster.intersectObjects(terrain.children);
     if (intersects[0]) {
         return intersects[0].point.y;
     }
