@@ -8,7 +8,7 @@ export default {
   },
 
   init: function () {
-    const videoElementID = this.el.getAttribute('src');
+    const videoElementID = this.el.components.material.attrValue.src
     
     this.videoEl = document.querySelector(videoElementID);
     

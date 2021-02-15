@@ -187,7 +187,7 @@
   <!-- Order does matter here! Bundle should be loaded after loading screen but before main scene.-->
   <script src="bundle.js"></script>
 
-  <a-scene env-system test-system renderer="colorManagement: true; physicallyCorrectLights: true; sortObjects: true"
+  <a-scene stats env-system test-system renderer="colorManagement: true; physicallyCorrectLights: true; sortObjects: true"
     background="color: white" fog="type: exponential; density: 0.002; color: #ffffff" loading-screen="enabled: false">
 
     <!-- Tutorial UI -->
@@ -227,7 +227,13 @@
       <audio id="dog-sound" src="assets/sounds/dogBarks.mp3" preload="auto"></audio>
       <a-asset-item id="environment" src="assets/models/bb.glb"></a-asset-item>
       <a-asset-item id="dog" src="assets/models/dog.glb"></a-asset-item>
-      <video id="meaning-of-life" autoplay muted loop="true" src="assets/videos/meaning-of-life.mp4"></video>
+
+      <video id="vid0" autoplay muted loop="true" src="assets/videos/vid0.mp4"></video>
+      <video id="vid1" autoplay muted loop="true" src="assets/videos/vid1.mp4"></video>
+      <video id="vid2" autoplay muted loop="true" src="assets/videos/vid2.mp4"></video>
+      <video id="vid3" autoplay muted loop="true" src="assets/videos/vid3.mp4"></video>
+      <video id="vid4" autoplay muted loop="true" src="assets/videos/vid4.mp4"></video>
+
     </a-assets>
 
     <a-entity id="background-sound"
@@ -276,14 +282,18 @@
         gltf-part="src: #environment; part: ground_far"></a-entity>
       <a-entity ccbasic-material="vertexColors: face;" gltf-part="src: #environment; part: berm"></a-entity>
       <a-entity ccbasic-material="vertexColors: face;" gltf-part="src: #environment; part: grass"></a-entity>
-      
+
       <a-entity ccbasic-material="vertexColors: face;" gltf-part="src: #environment; part: pole_wires"></a-entity>
       <a-entity ccbasic-material="instanced: true" instanced-gltf-part="src: #environment; part: poles">
       </a-entity>
       <a-entity ccbasic-material="color:#0993f5; seaAmt: 1.0;" gltf-part="src: #environment; part: lake"></a-entity>
 
-      <a-video src="#meaning-of-life" ccbasic-material="basePosterize: 6.0" width="9" height="9" position="0 3 0" positional-video ></a-video>
-
+      <a-video src="#vid0" ccbasic-material="posterize: 12" width="1.5" height="1.5" position="-54.8219 10.1567 -2.30926" rotation="-359.368 39.2662 0.999739" positional-video></a-video>
+      <a-video src="#vid1" ccbasic-material="posterize: 12" width="1.5" height="1.5" position="-36.046 1.41412 -10.6869" rotation="-359.753 -19.4657 -0.739342" positional-video></a-video>
+      <a-video src="#vid2" ccbasic-material="posterize: 12" width="1.5" height="1.5" position="-35.0304 1.17006 0.546335" rotation="-332.953 -101.051 4.15403" positional-video></a-video>
+      <a-video src="#vid3" ccbasic-material="posterize: 12" width="1.5" height="1.5" position="-47.0961 1.38877 2.68231" rotation="-315.004 -268.692 45.0035" positional-video></a-video>
+      <a-video src="#vid4" ccbasic-material="posterize: 12" width="1.5" height="1.5" position="-23.7469 1.5 -4.59851" rotation="-358.617 -225.632 1.93324" positional-video></a-video>
+      
       <!-- BUILDINGS -->
       <a-entity ccbasic-material gltf-part="src: #environment; part: opera_house"></a-entity>
       <a-entity ccbasic-material gltf-part="src: #environment; part: cat_house"></a-entity>
@@ -292,7 +302,7 @@
       <a-entity ccbasic-material gltf-part="src: #environment; part: monopoly"></a-entity>
       <a-entity ccbasic-material="instanced: true" instanced-gltf-part="src: #environment; part:trees"></a-entity>
 
-      <a-entity ccbasic-material="instanced: true" instanced-gltf-part="src: #environment; part:container_spiral"></a-entity>
+      <a-entity ccbasic-material="instanced: true" instanced-gltf-part="src: #environment; part:containers"></a-entity>
 
       <!-- VEHICLES -->
       <a-entity ccbasic-material gltf-part="src: #environment; part: rv1"></a-entity>
@@ -306,10 +316,13 @@
       <a-entity ccbasic-material="instanced: true" instanced-gltf-part="src: #environment; part:props"></a-entity>
 
       <!-- WARP POINTS -->
-      <a-entity ccbasic-material="shouldGlitch: 1" gltf-model="assets/models/dog.glb" id="origin1" warp-point="exitWarpId: #origin2" scale="3 3 3" position="-5.5303 0 0.32611" rotation="0 8606.26869276255 0"></a-entity>
-      <a-entity ccbasic-material="shouldGlitch: 1" gltf-model="#dog" id="origin2" warp-point="exitWarpId: #origin1" scale ="3 3 3" position="122 0 -134"></a-entity>
+      <a-entity ccbasic-material="shouldGlitch: 1" gltf-model="assets/models/dog.glb" id="origin1"
+        warp-point="exitWarpId: #origin2" scale="3 3 3" position="-5.5303 0 0.32611" rotation="0 8606.26869276255 0">
+      </a-entity>
+      <a-entity ccbasic-material="shouldGlitch: 1" gltf-model="#dog" id="origin2" warp-point="exitWarpId: #origin1"
+        scale="3 3 3" position="122 0 -134"></a-entity>
       <a-entity storm-trigger-point="" position="41.75281 0 52.23706" scale="5 5 5"></a-entity>
-      
+
       <a-entity ccbasic-material gltf-part="src: #environment; part: animal_house"></a-entity>
       <a-entity ccbasic-material="transparent: true; vertexColors: face;"
         gltf-part="src: #environment; part: fence_poles"></a-entity>
