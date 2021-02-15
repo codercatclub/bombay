@@ -25,7 +25,7 @@ varying float glitchAmt;
 uniform float teleportProgress;
 uniform float shouldGlitch;
 uniform float ignoreGlobalGlitch;
-uniform float basePosterize;
+uniform float posterize;
 #ifdef SEA
 uniform float seaAmt;
 varying float colorAmt;
@@ -35,10 +35,10 @@ void main() {
 	#include <clipping_planes_fragment>
 	vec4 diffuseColor = vec4( diffuse, opacity );
 	#include <logdepthbuf_fragment>
-	float usePosterize = step(0.01, basePosterize+teleportProgress);
-	float useBasePosterize = step(0.01, basePosterize);
+	float usePosterize = step(0.01, posterize+teleportProgress);
+	float useBasePosterize = step(0.01, posterize);
 	float telePosterize = 10.0 - 8.0*teleportProgress;
-	float fAmt = mix(telePosterize, min(telePosterize,basePosterize), useBasePosterize);
+	float fAmt = mix(telePosterize, min(telePosterize,posterize), useBasePosterize);
 
 #ifdef USE_MAP
 	vec2 modUv = vUv.xy;
