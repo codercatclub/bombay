@@ -21,8 +21,12 @@ export default {
 
         // Make an array of each mesh name to its instanced mesh
         const instancedMeshes = [];
+        let collider;
         baseObject.children.forEach((child) => {
-          if (child.name !== "instances") {
+          if(child.name == "collider") {
+            collider = child;
+          }
+          else if (child.name !== "instances") {
             let name = child.name.charAt(child.name.length - 1);
             instancedMeshes[parseInt(name)] = {
               mesh: child,
@@ -32,6 +36,10 @@ export default {
             };
           }
         });
+
+        if(collider) { 
+          parentObject.add(collider);
+        }
 
         const baseInstances = baseObject.getObjectByName("instances").geometry;
         const pos = baseInstances.attributes.position.array;
@@ -49,11 +57,10 @@ export default {
   
         const instanceType = type.array;
         const totalCount = type.count;
-
         for (let x = 0; x < totalCount; x += 3) {
           instancedMeshes[instanceType[x]].count++;
         }
-      
+        
         instancedMeshes.forEach((meshGroup) => {
           let mesh = meshGroup.mesh;
           let count = meshGroup.count;
@@ -99,7 +106,6 @@ export default {
           meshGroup.iMesh.instanceMatrix.needsUpdate = true;
           parentObject.add(meshGroup.iMesh);
         });
-
         this.el.setObject3D("mesh", parentObject);
       },
       function () {}, // Progress

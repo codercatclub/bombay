@@ -20,12 +20,19 @@ const moveTowardsFlat = function (vec1, vec2, t) {
 }
 
 const calculateGroundHeight = function(pos, raycaster, terrain) {
+    if(!terrain ) return -100
     ORIGIN.set(pos.x, 40, pos.z);
     raycaster.set(ORIGIN, DOWN);
     let intersects = raycaster.intersectObjects(terrain.children);
+    terrain.children.forEach((f) => {
+        f.visible = true;
+    })
     if (intersects[0]) {
         return intersects[0].point.y;
     }
+    terrain.children.forEach((f) => {
+        f.visible = false;
+    })
     return -100;
 }
 
