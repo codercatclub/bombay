@@ -36,12 +36,13 @@ const Mover = {
     this.raycaster = new THREE.Raycaster();
     const ground = document.querySelector(`#${groundID}`);
 
+    this.terrain = new THREE.Object3D();
+
     // wait for mesh to load
     ground.addEventListener("object3dset", (event) => {
       const group = event.target.object3D;
       const groundMesh = group.getObjectByProperty("type", "Mesh");
-
-      this.terrain = groundMesh;
+      this.terrain.add(groundMesh);
     });
 
     if ("xr" in navigator) {
@@ -152,44 +153,39 @@ const Mover = {
     this.cameraRig.position.sub(
       move.multiplyScalar(this.vrMovingSpeed * timeDelta)
     );
-    if (this.terrain) {
-      const groundHeight =
-        calculateGroundHeight(
-          this.cameraRig.position,
-          this.raycaster,
-          this.terrain
-        ) + 1.8;
-      if(groundHeight < -50)
-      {
-        this.cameraRig.position.copy(this.lastCameraPosition);
-      } else {
-        const lerpSpeed = Math.min(0.01 * timeDelta, 1);
-        this.cameraRig.position.y =
-        lerpSpeed * groundHeight + (1 - lerpSpeed) * this.cameraRig.position.y;
-        this.lastCameraPosition.copy(this.cameraRig.position);
-      }
+    const groundHeight =
+      calculateGroundHeight(
+        this.cameraRig.position,
+        this.raycaster,
+        this.terrain
+      ) + 1.8;
+    if(groundHeight < -50)
+    {
+      this.cameraRig.position.copy(this.lastCameraPosition);
+    } else {
+      const lerpSpeed = Math.min(0.01 * timeDelta, 1);
+      this.cameraRig.position.y =
+      lerpSpeed * groundHeight + (1 - lerpSpeed) * this.cameraRig.position.y;
+      this.lastCameraPosition.copy(this.cameraRig.position);
     }
   },
-
   handleMove: function (move, timeDelta) {
-    if (this.terrain) {
-      const groundHeight =
-        calculateGroundHeight(
-          this.camera.position,
-          this.raycaster,
-          this.terrain
-        ) + 1.8;
-      if(groundHeight < -50)
-      {
-        this.camera.position.copy(this.lastCameraPosition);
-        this.wasdControls.enabled = false;
-      } else {
-        this.wasdControls.enabled = true;
-        const lerpSpeed = Math.min(0.01 * timeDelta, 1);
-        this.camera.position.y =
-        lerpSpeed * groundHeight + (1 - lerpSpeed) * this.camera.position.y;
-        this.lastCameraPosition.copy(this.camera.position);
-      }
+    const groundHeight =
+      calculateGroundHeight(
+        this.camera.position,
+        this.raycaster,
+        this.terrain
+      ) + 1.8;
+    if(groundHeight < -50)
+    {
+      this.camera.position.copy(this.lastCameraPosition);
+      this.wasdControls.enabled = false;
+    } else {
+      this.wasdControls.enabled = true;
+      const lerpSpeed = Math.min(0.01 * timeDelta, 1);
+      this.camera.position.y =
+      lerpSpeed * groundHeight + (1 - lerpSpeed) * this.camera.position.y;
+      this.lastCameraPosition.copy(this.camera.position);
     }
   },
   Teleport: function (pos, forward) {
