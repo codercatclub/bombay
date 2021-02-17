@@ -245,7 +245,7 @@
 
 
     <a-entity id="cameraRig">
-      <a-entity id="camera" position="12 1.6 0" camera wasd-controls="acceleration: 300" look-controls quick-turn mover>
+      <a-entity id="camera" position="12 1.6 0" camera wasd-controls="acceleration: 700" look-controls quick-turn mover>
       </a-entity>
       <a-entity oculus-go-controls></a-entity>
       <a-entity id="leftHandContloller" oculus-touch-controls="hand: left; orientationOffset: 0 0 0;"></a-entity>
@@ -278,8 +278,8 @@
       <a-entity ccbasic-material="vevrtexColors: face; ignoreGlobalGlitch: 0.0"
         gltf-part="src: #environment; part: hills"></a-entity>
       <a-entity ccbasic-material="vertexColors: face; ignoreGlobalGlitch: 0.0"
-        gltf-part="src: #environment; part: ground" id="ground"></a-entity>
-      <a-entity ccbasic-material="vertexColors: face; ignoreGlobalGlitch: 0.0"
+        gltf-part="src: #environment; part: ground"></a-entity>
+      <a-entity id="ground" ccbasic-material="vertexColors: face; ignoreGlobalGlitch: 0.0"
         gltf-part="src: #environment; part: ground_far"></a-entity>
       <a-entity ccbasic-material="vertexColors: face;" gltf-part="src: #environment; part: berm"></a-entity>
       <a-entity ccbasic-material="vertexColors: face;" gltf-part="src: #environment; part: grass"></a-entity>

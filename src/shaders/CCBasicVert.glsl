@@ -75,7 +75,7 @@ void main() {
 	worldPosition.y += 10.0*teleportProgress*lerpY;
 	//voxel
 	vec3 voxelPos = floor(worldPosition.xyz / vSize) * vSize; 
-	worldPosition.xyz = mix(worldPosition.xyz, voxelPos, 1.0);
+	// worldPosition.xyz = mix(worldPosition.xyz, voxelPos, 1.0);
 	
 	vec4 mvPosition = viewMatrix * worldPosition;
 
