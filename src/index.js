@@ -21,6 +21,7 @@ import Collider from './components/Collider';
 import TestSystem from './systems/TestSystem';
 import SoundSystem from './systems/SoundSystem';
 import EnvSystem from './systems/EnvironmentSystem';
+import Chiba from './components/Chiba';
 
 const THREE = AFRAME.THREE;
 
@@ -31,6 +32,7 @@ const THREE = AFRAME.THREE;
 AFRAME.registerSystem('test-system', TestSystem);
 AFRAME.registerSystem('sound-system', SoundSystem);
 AFRAME.registerSystem('env-system', EnvSystem);
+AFRAME.registerSystem('chiba', Chiba);
 
 // Register all components
 AFRAME.registerComponent('gltf-camera', GLTFCamera);
