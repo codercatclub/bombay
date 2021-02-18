@@ -16,11 +16,14 @@ export default {
     this.timeOfLookAt = 0;
     this.camera = camera.object3D;
     this.cameraWorldPos = new THREE.Vector3();
+    this.objWorldPos = new THREE.Vector3();
   },
 
   tick: function (time, deltaTime) {
     this.camera.getWorldPosition(this.cameraWorldPos);
-    let dist = this.cameraWorldPos.distanceTo(this.el.object3D.position);
+    this.el.object3D.getWorldPosition(this.objWorldPos)
+
+    let dist = this.cameraWorldPos.distanceTo(this.objWorldPos);
 
     if (dist > this.data.triggerRadius) {
       this.videoEl.pause();

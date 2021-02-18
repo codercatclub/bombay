@@ -1,13 +1,14 @@
 import AFRAME from 'aframe';
 
 const THREE = AFRAME.THREE;
+import { doRoutine } from "../Utils";
 
 const Chiba = {
   schema: {
-    chiba1: { type: "string", default: "chiba4" },
+    chiba1: { type: "string", default: "chiba2" },
     chiba2: { type: "string", default: "chiba3" },
-    chiba3: { type: "string", default: "chiba0" },
-    finalChiba: { type: "string", default: "chiba1" },
+    chiba3: { type: "string", default: "chiba4" },
+    finalChiba: { type: "string", default: "chiba0" },
   },
   init: function () {
     //chiba system, checks if you have looked at all 4 chibas for at least 3 seconds. if you have, 
@@ -24,16 +25,42 @@ const Chiba = {
         done: false
       })
     })
+
+    this.finalChiba = document.querySelector(`#${this.data.finalChiba}`);
+    this.moverComponent = document.querySelector('#camera').components.mover;
+
+    this.activateCoroutine = function* () {
+      let obj3D = this.finalChiba.object3D;
+      obj3D.position.y = -2;
+      let t = 0;
+      while (t <= 1) {
+        t += this.deltaTimeSec/5.66;
+        obj3D.position.y = -1 + 6 * t;
+        yield;
+      }
+    };
+
   },
 
   tick: function(time, timeDelta) {
+
+    this.deltaTimeSec = timeDelta / 1000;
+
     if(this.activateFinalChibaRoutine) {
-      return
+      if (doRoutine(this.activateFinalChibaRoutine)) {
+        this.activateFinalChibaRoutine = null;
+      }
     }
+
+    if(this.activatedFinalChiba) {
+      return;
+    }
+
     let done = true;
     this.chibaEls.forEach((c) => {
       if(!c.pVid){
         c.pVid = c.el.components["positional-video"]
+        done = false;
         return;
       }
 
@@ -49,7 +76,8 @@ const Chiba = {
     })
 
     if(done && this.chibaEls.length > 2) {
-      this.activateFinalChiba = true;
+      this.activatedFinalChiba = true;
+      this.activateFinalChibaRoutine = this.activateCoroutine();
     }
   }
 }

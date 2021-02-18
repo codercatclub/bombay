@@ -32,7 +32,6 @@ const THREE = AFRAME.THREE;
 AFRAME.registerSystem('test-system', TestSystem);
 AFRAME.registerSystem('sound-system', SoundSystem);
 AFRAME.registerSystem('env-system', EnvSystem);
-AFRAME.registerSystem('chiba', Chiba);
 
 // Register all components
 AFRAME.registerComponent('gltf-camera', GLTFCamera);
@@ -49,3 +48,4 @@ AFRAME.registerComponent('warp-point', WarpPoint);
 AFRAME.registerComponent('storm-trigger-point', StormTriggerPoint);
 AFRAME.registerComponent('positional-video', PositionalVideo);
 AFRAME.registerComponent('collider', Collider);
+AFRAME.registerComponent('chiba-activator', Chiba);
