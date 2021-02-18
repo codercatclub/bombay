@@ -227,6 +227,7 @@
       <audio id="city-background-sound" src="assets/sounds/Dark_SciFi_Drone_Mixed_037.mp3" preload="auto"></audio>
       <audio id="dog-sound" src="assets/sounds/dogBarks.mp3" preload="auto"></audio>
       <a-asset-item id="environment" src="assets/models/bb.glb"></a-asset-item>
+      <a-asset-item id="chiba" src="assets/models/chiba.glb"></a-asset-item>
       <a-asset-item id="dog" src="assets/models/dog.glb"></a-asset-item>
 
       <video id="vid0" autoplay muted loop="true" src="assets/videos/vid0.mp4"></video>
@@ -245,7 +246,7 @@
 
 
     <a-entity id="cameraRig">
-      <a-entity id="camera" position="12 1.6 0" camera wasd-controls="acceleration: 300" look-controls quick-turn mover>
+      <a-entity id="camera" position="12 1.6 0" camera wasd-controls="acceleration: 700" look-controls quick-turn mover>
       </a-entity>
       <a-entity oculus-go-controls></a-entity>
       <a-entity id="leftHandContloller" oculus-touch-controls="hand: left; orientationOffset: 0 0 0;"></a-entity>
@@ -278,8 +279,8 @@
       <a-entity ccbasic-material="vevrtexColors: face; ignoreGlobalGlitch: 0.0"
         gltf-part="src: #environment; part: hills"></a-entity>
       <a-entity ccbasic-material="vertexColors: face; ignoreGlobalGlitch: 0.0"
-        gltf-part="src: #environment; part: ground" id="ground"></a-entity>
-      <a-entity ccbasic-material="vertexColors: face; ignoreGlobalGlitch: 0.0"
+        gltf-part="src: #environment; part: ground"></a-entity>
+      <a-entity id="ground" ccbasic-material="vertexColors: face; ignoreGlobalGlitch: 0.0"
         gltf-part="src: #environment; part: ground_far"></a-entity>
       <a-entity ccbasic-material="vertexColors: face;" gltf-part="src: #environment; part: berm"></a-entity>
       <a-entity ccbasic-material="vertexColors: face;" gltf-part="src: #environment; part: grass"></a-entity>
@@ -312,7 +313,10 @@
       <a-entity id="tower" ccbasic-material="vertexColors: face;" gltf-part="src: #environment; part: radio_tower">
       </a-entity>
       <a-entity ccbasic-material gltf-part="src: #environment; part: monopoly"></a-entity>
-      <a-entity ccbasic-material gltf-part="src: #environment; part:fig_house"></a-entity>
+      <a-entity ccbasic-material gltf-part="src: #environment; part: fig_house"></a-entity>
+      <a-entity ccbasic-material gltf-part="src: #environment; part: ruins_01"></a-entity>
+
+      <a-entity ccbasic-material="vertexColors: face;" scale="2 2 2" gltf-model="#chiba" position="126.784 0 -125.523" rotation="0 45 0"></a-entity>
 
       <a-entity ccbasic-material="instanced: true" collider instanced-gltf-part="src: #environment; part:containers">
       </a-entity>
