@@ -187,8 +187,9 @@
   <!-- Order does matter here! Bundle should be loaded after loading screen but before main scene.-->
   <script src="bundle.js"></script>
 
-  <a-scene stats env-system test-system renderer="colorManagement: true; physicallyCorrectLights: true; sortObjects: true"
-    background="color: white" fog="type: exponential; density: 0.002; color: #ffffff" loading-screen="enabled: false">
+  <a-scene stats env-system test-system
+    renderer="colorManagement: true; physicallyCorrectLights: true; sortObjects: true" background="color: white"
+    fog="type: exponential; density: 0.002; color: #ffffff" loading-screen="enabled: false">
 
     <!-- Tutorial UI -->
     <div id="desktopTutorial" class="moveTutorialContainer">
@@ -289,26 +290,56 @@
       </a-entity>
       <a-entity ccbasic-material="color:#0993f5; seaAmt: 1.0;" gltf-part="src: #environment; part: lake"></a-entity>
 
-      <a-video src="#vid0" ccbasic-material="posterize: 12" width="1.5" height="1.5" position="-44.92948 1.77396 -5.92349" rotation="-0.6176485031510274 103.0510431166396 1.008405719430249" positional-video="" material="" geometry=""></a-video>
-      <a-video src="#vid1" ccbasic-material="posterize: 12" width="1.5" height="1.5" position="0.75948 1.71874 -43.4285" rotation="" positional-video="triggerRadius: 5" material="" geometry=""></a-video>
-      <a-video src="#vid2" ccbasic-material="posterize: 12" width="1.5" height="1.5" position="-35.0304 1.17006 0.546335" rotation="-332.953 -101.051 4.15403" positional-video></a-video>
-      <a-video src="#vid3" ccbasic-material="posterize: 12" width="1.5" height="1.5" position="-47.00565 1.52823 2.68007" rotation="0 -88.57870216943014 0" positional-video="" material="" geometry=""></a-video>
-      <a-video src="#vid4" ccbasic-material="posterize: 12" width="2" height="2" position="-23.73313 1.5 -4.61206" rotation="0.6789549872300255 134.34427901329977 1.3183758865960242" positional-video="" material="" geometry=""></a-video>
+      <a-video src="#vid0" ccbasic-material="posterize: 12" width="1.5" height="1.5"
+        position="-44.92948 1.77396 -5.92349" rotation="-0.6176485031510274 103.0510431166396 1.008405719430249"
+        positional-video="" material="" geometry=""></a-video>
+      <a-video src="#vid1" ccbasic-material="posterize: 12" width="1.5" height="1.5" position="0.75948 1.71874 -43.4285"
+        rotation="" positional-video="triggerRadius: 5" material="" geometry=""></a-video>
+      <a-video src="#vid2" ccbasic-material="posterize: 12" width="1.5" height="1.5"
+        position="-35.0304 1.17006 0.546335" rotation="-332.953 -101.051 4.15403" positional-video></a-video>
+      <a-video src="#vid3" ccbasic-material="posterize: 12" width="1.5" height="1.5"
+        position="-47.00565 1.52823 2.68007" rotation="0 -88.57870216943014 0" positional-video="" material=""
+        geometry=""></a-video>
+      <a-video src="#vid4" ccbasic-material="posterize: 12" width="2" height="2" position="-23.73313 1.5 -4.61206"
+        rotation="0.6789549872300255 134.34427901329977 1.3183758865960242" positional-video="" material="" geometry="">
+      </a-video>
 
       <a-entity ccbasic-material="instanced: true" instanced-gltf-part="src: #environment; part:trees"></a-entity>
-      
+
       <!-- BUILDINGS -->
       <a-entity ccbasic-material gltf-part="src: #environment; part: opera_house"></a-entity>
       <a-entity ccbasic-material gltf-part="src: #environment; part: cat_house"></a-entity>
       <a-entity id="tower" ccbasic-material="vertexColors: face;" gltf-part="src: #environment; part: radio_tower">
       </a-entity>
+
       <a-entity ccbasic-material gltf-part="src: #environment; part: monopoly"></a-entity>
       <a-entity ccbasic-material gltf-part="src: #environment; part: fig_house"></a-entity>
-      <a-entity ccbasic-material gltf-part="src: #environment; part: ruins_01"></a-entity>
 
-      <a-entity ccbasic-material="vertexColors: face;" scale="2 2 2" gltf-model="#chiba" position="126.784 0 -125.523" rotation="0 45 0"></a-entity>
+      <a-entity ccbasic-material gltf-part="src: #environment; part: road_ruin"></a-entity>
 
-      <a-entity ccbasic-material="instanced: true" collider instanced-gltf-part="src: #environment; part:containers"></a-entity>
+      <a-entity ccbasic-material gltf-part="src: #environment; part: ruin_0"></a-entity>
+      <a-entity ccbasic-material gltf-part="src: #environment; part: ruin_1"></a-entity>
+      <a-entity ccbasic-material gltf-part="src: #environment; part: ruin_2"></a-entity>
+      <a-entity ccbasic-material gltf-part="src: #environment; part: ruin_3"></a-entity>
+      <a-entity ccbasic-material gltf-part="src: #environment; part: ruin_4"></a-entity>
+      <a-entity ccbasic-material gltf-part="src: #environment; part: ruin_5"></a-entity>
+      <a-entity ccbasic-material gltf-part="src: #environment; part: ruin_6"></a-entity>
+      <a-entity ccbasic-material gltf-part="src: #environment; part: ruin_8"></a-entity>
+      <a-entity ccbasic-material gltf-part="src: #environment; part: ruin_9"></a-entity>
+      <a-entity ccbasic-material gltf-part="src: #environment; part: ruin_10"></a-entity>
+      <a-entity ccbasic-material gltf-part="src: #environment; part: ruin_11"></a-entity>
+      <a-entity ccbasic-material gltf-part="src: #environment; part: ruin_12"></a-entity>
+      <a-entity ccbasic-material gltf-part="src: #environment; part: ruin_13"></a-entity>
+      <a-entity ccbasic-material gltf-part="src: #environment; part: ruin_17"></a-entity>
+      <a-entity ccbasic-material gltf-part="src: #environment; part: ruin_17"></a-entity>
+      <a-entity ccbasic-material gltf-part="src: #environment; part: ruin_18"></a-entity>
+      <a-entity ccbasic-material gltf-part="src: #environment; part: ruin_19"></a-entity>
+
+      <a-entity ccbasic-material="vertexColors: face;" scale="2 2 2" gltf-model="#chiba" position="126.784 0 -125.523"
+        rotation="0 45 0"></a-entity>
+
+      <a-entity ccbasic-material="instanced: true" collider instanced-gltf-part="src: #environment; part:containers">
+      </a-entity>
 
       <!-- VEHICLES -->
       <a-entity ccbasic-material gltf-part="src: #environment; part: rv1"></a-entity>
