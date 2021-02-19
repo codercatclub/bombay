@@ -187,7 +187,7 @@
   <!-- Order does matter here! Bundle should be loaded after loading screen but before main scene.-->
   <script src="bundle.js"></script>
 
-  <a-scene stats env-system test-system
+  <a-scene env-system test-system
     renderer="colorManagement: true; physicallyCorrectLights: true; sortObjects: true" background="color: white"
     fog="type: exponential; density: 0.002; color: #ffffff" loading-screen="enabled: false">
 
@@ -246,7 +246,7 @@
 
 
     <a-entity id="cameraRig">
-      <a-entity id="camera" position="12 1.6 0" camera wasd-controls="acceleration: 700" look-controls quick-turn mover>
+      <a-entity id="camera" position="97.76856 0 -114.52353" camera wasd-controls="acceleration: 700" look-controls quick-turn mover>
       </a-entity>
       <a-entity oculus-go-controls></a-entity>
       <a-entity id="leftHandContloller" oculus-touch-controls="hand: left; orientationOffset: 0 0 0;"></a-entity>
@@ -290,19 +290,10 @@
       </a-entity>
       <a-entity ccbasic-material="color:#0993f5; seaAmt: 1.0;" gltf-part="src: #environment; part: lake"></a-entity>
 
-      <a-video src="#vid0" ccbasic-material="posterize: 12" width="1.5" height="1.5"
-        position="-44.92948 1.77396 -5.92349" rotation="-0.6176485031510274 103.0510431166396 1.008405719430249"
-        positional-video="" material="" geometry=""></a-video>
-      <a-video src="#vid1" ccbasic-material="posterize: 12" width="1.5" height="1.5" position="0.75948 1.71874 -43.4285"
-        rotation="" positional-video="triggerRadius: 5" material="" geometry=""></a-video>
-      <a-video src="#vid2" ccbasic-material="posterize: 12" width="1.5" height="1.5"
-        position="-35.0304 1.17006 0.546335" rotation="-332.953 -101.051 4.15403" positional-video></a-video>
-      <a-video src="#vid3" ccbasic-material="posterize: 12" width="1.5" height="1.5"
-        position="-47.00565 1.52823 2.68007" rotation="0 -88.57870216943014 0" positional-video="" material=""
-        geometry=""></a-video>
-      <a-video src="#vid4" ccbasic-material="posterize: 12" width="2" height="2" position="-23.73313 1.5 -4.61206"
-        rotation="0.6789549872300255 134.34427901329977 1.3183758865960242" positional-video="" material="" geometry="">
+      <a-video id="chiba1" src="#vid1" ccbasic-material="posterize: 12" width="1.5" height="1.5"
+        position="0.75948 1.71874 -43.4285" rotation="" positional-video="triggerRadius: 5" material="" geometry="">
       </a-video>
+
 
       <a-entity ccbasic-material="instanced: true" instanced-gltf-part="src: #environment; part:trees"></a-entity>
 
@@ -335,8 +326,13 @@
       <a-entity ccbasic-material gltf-part="src: #environment; part: ruin_18"></a-entity>
       <a-entity ccbasic-material gltf-part="src: #environment; part: ruin_19"></a-entity>
 
-      <a-entity ccbasic-material="vertexColors: face;" scale="2 2 2" gltf-model="#chiba" position="126.784 0 -125.523"
-        rotation="0 45 0"></a-entity>
+      <a-entity ccbasic-material="vertexColors: face;" scale="2 2 2" gltf-model="#chiba" position="126.784 0 -125.523" rotation="0 0 0"></a-entity>
+      <a-entity position="126.784 0 -125.523" rotation="">
+        <a-video id="chiba0" src="#vid0" ccbasic-material="posterize: 12" width="4" height="4" position="37.50734 -2 2.9402" rotation="0 90 0" positional-video="" material="" geometry=""></a-video>
+        <a-video id="chiba2" src="#vid2" ccbasic-material="posterize: 12" width="3" height="3" position="25.50686 2.31857 -3.9206" rotation="" positional-video="" material="" geometry=""></a-video>
+        <a-video id="chiba3" src="#vid3" ccbasic-material="posterize: 12" width="3" height="3" position="7.93389 2.23895 -3.21393" rotation="" positional-video="" material="" geometry=""></a-video>
+        <a-video id="chiba4" src="#vid4" ccbasic-material="posterize: 12" width="3" height="3" position="8.06841 2.31857 9.73317" rotation="" positional-video="" material="" geometry=""></a-video>
+      </a-entity>
 
       <a-entity ccbasic-material="instanced: true" collider instanced-gltf-part="src: #environment; part:containers">
       </a-entity>
@@ -366,13 +362,12 @@
         gltf-part="src: #environment; part: fence_poles"></a-entity>
       <a-entity ccbasic-material="transparent: true;" gltf-part="src: #environment; part: fence_wire"></a-entity>
 
-      <a-entity id="dog-bark" sound="src: #dog-sound; positional: true; autoplay:false; loop: false; volume: 0.75;">
+      <a-entity id="dog-bark" sound="src: #dog-sound; positional: true; autoplay:false; loop: false; volume: 0.75;"></a-entity>
       </a-entity>
 
-    </a-entity>
-
-    <!-- CHARACTER -->
-    <a-entity ccbasic-material="changeColor: 1.0" chihuahua gltf-model="#dog"></a-entity>
+      <!-- CHARACTER -->
+      <a-entity ccbasic-material="changeColor: 1.0" chihuahua gltf-model="#dog"></a-entity>
+      <a-entity id="chibaz" chiba-activator></a-entity>
 
   </a-scene>
 </body>
