@@ -15,7 +15,8 @@ varying float glitchAmt;
 uniform float teleportProgress;
 uniform float voxelSize;
 uniform float ignoreGlobalGlitch;
-uniform float windAmt;
+uniform float globalWindAmt;
+uniform float useWind;
 uniform float globalGlitchAmt;
 uniform float shouldGlitch;
 
@@ -56,7 +57,7 @@ void main() {
 	//wind 
 	float lerpY = min(max(worldPosition.y,3.0),10.0) - 3.0;
 	float noiseXZ = 0.5 + cnoise(.1*worldPosition.xz + 0.001*timeMsec);
-	worldPosition.xz += windAmt*(lerpY  +  lerpY*noiseXZ) * vec2(1.0,1.0);
+	worldPosition.xz += useWind*globalWindAmt*(lerpY  +  lerpY*noiseXZ) * vec2(1.0,1.0);
 
 
 	#ifdef SEA

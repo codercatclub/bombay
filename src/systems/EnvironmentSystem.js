@@ -19,7 +19,7 @@ export default {
         zenithColor: new THREE.Color("#250bfb"),
         fog: new THREE.Color("#250bfb"),
         shouldGlitch: 1,
-        windAmt: 0.2,
+        globalWindAmt: 0.2,
       },
       "DAY" : {
         dirLightColor: new THREE.Color("#FFF"),
@@ -28,7 +28,7 @@ export default {
         zenithColor: new THREE.Color("#3cf6ff"),
         fog: new THREE.Color("#FFF"),
         shouldGlitch: 0,
-        windAmt: 0.05
+        globalWindAmt: 0.05
       },
       "TELEPORT" : {
         dirLightColor: new THREE.Color("#ff00ff"),
@@ -37,7 +37,7 @@ export default {
         zenithColor: new THREE.Color("#ff00ff"),
         fog: new THREE.Color("#250bfb"),
         shouldGlitch: 1,
-        windAmt: 0.2,
+        globalWindAmt: 0.2,
       }
     };
 
@@ -69,7 +69,7 @@ export default {
           shader.uniforms["teleportProgress"].value = t;
         }
         shader.uniforms["globalGlitchAmt"].value = (1-t) * this.colorConfig[from].shouldGlitch +  t * this.colorConfig[to].shouldGlitch;
-        shader.uniforms["windAmt"].value = (1-t) * this.colorConfig[from].windAmt +  t * this.colorConfig[to].windAmt;
+        shader.uniforms["globalWindAmt"].value = (1-t) * this.colorConfig[from].globalWindAmt +  t * this.colorConfig[to].globalWindAmt;
       })
     })
 

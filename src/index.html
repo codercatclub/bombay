@@ -283,10 +283,10 @@
       <a-entity id="ground" ccbasic-material="vertexColors: face; ignoreGlobalGlitch: 0.0"
         gltf-part="src: #environment; part: ground_far"></a-entity>
       <a-entity ccbasic-material="vertexColors: face;" gltf-part="src: #environment; part: berm"></a-entity>
-      <a-entity ccbasic-material="vertexColors: face;" gltf-part="src: #environment; part: grass"></a-entity>
+      <a-entity ccbasic-material="vertexColors: face; useWind: 1.0;" gltf-part="src: #environment; part: grass"></a-entity>
 
-      <a-entity ccbasic-material="vertexColors: face;" gltf-part="src: #environment; part: pole_wires"></a-entity>
-      <a-entity ccbasic-material="instanced: true" instanced-gltf-part="src: #environment; part: poles">
+      <a-entity ccbasic-material="vertexColors: face; useWind: 1.0;" gltf-part="src: #environment; part: pole_wires"></a-entity>
+      <a-entity ccbasic-material="instanced: true; useWind: 1.0;" instanced-gltf-part="src: #environment; part: poles">
       </a-entity>
       <a-entity ccbasic-material="color:#0993f5; seaAmt: 1.0;" gltf-part="src: #environment; part: lake"></a-entity>
 
@@ -295,7 +295,7 @@
       </a-video>
 
 
-      <a-entity ccbasic-material="instanced: true" instanced-gltf-part="src: #environment; part:trees"></a-entity>
+      <a-entity ccbasic-material="instanced: true; useWind: 1.0" instanced-gltf-part="src: #environment; part:trees"></a-entity>
 
       <!-- BUILDINGS -->
       <a-entity ccbasic-material gltf-part="src: #environment; part: opera_house"></a-entity>
@@ -329,7 +329,7 @@
       <a-entity ccbasic-material="vertexColors: face;" scale="2 2 2" gltf-model="#chiba" position="126.784 0 -125.523" rotation="0 0 0"></a-entity>
       <a-entity position="126.784 0 -125.523" rotation="">
         <a-plane id="chiba0Background" height="12" width="12" ccbasic-material="haloAmt: 1; transparent: true" position="37.80734 -5 2.9402" rotation="0 90 0"></a-plane>
-        <a-video id="chiba0" src="#vid0" ccbasic-material="posterize: 12" width="6" height="6" position="37.50734 -5 2.9402" rotation="0 90 0" positional-video="" material="" geometry=""></a-video>
+        <a-video id="chiba0" src="#vid0" ccbasic-material="posterize: 8" width="6" height="6" position="37.50734 -5 2.9402" rotation="0 90 0" positional-video="" material="" geometry=""></a-video>
         <a-video id="chiba2" src="#vid2" ccbasic-material="posterize: 12" width="3" height="3" position="25.50686 2.31857 -3.9206" rotation="" positional-video="" material="" geometry=""></a-video>
         <a-video id="chiba3" src="#vid3" ccbasic-material="posterize: 12" width="3" height="3" position="7.93389 2.23895 -3.21393" rotation="" positional-video="" material="" geometry=""></a-video>
         <a-video id="chiba4" src="#vid4" ccbasic-material="posterize: 12" width="3" height="3" position="8.06841 2.31857 9.73317" rotation="" positional-video="" material="" geometry=""></a-video>
