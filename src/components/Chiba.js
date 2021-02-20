@@ -30,19 +30,22 @@ const Chiba = {
     this.finalChiba = document.querySelector(`#${this.data.finalChiba}`);
     this.finalChibaBack = document.querySelector(`#${this.data.finalChibaBack}`);
     this.moverComponent = document.querySelector('#camera').components.mover;
-
     this.activateCoroutine = function* () {
       let obj3D = this.finalChiba.object3D;
       let obj3D2 = this.finalChibaBack.object3D;
+      let mat = this.finalChiba.components["ccbasic-material"];
       obj3D.position.y = -5;
       obj3D2.position.y = -5;
       let t = 0;
       while (t <= 1) {
+        mat.materialShaders[0].uniforms.posterize.value = 1 + 7 * t
+        mat.materialShaders[0].uniforms.voxelSize.value = 3.0 - 3.0*t
         t += this.deltaTimeSec/5.66;
         obj3D.position.y = -5 + 10 * t;
         obj3D2.position.y = -5 + 10 * t;
         yield;
       }
+      mat.materialShaders[0].uniforms.voxelSize.value = 0.0;
     };
 
   },
@@ -71,7 +74,6 @@ const Chiba = {
 
       if(c.pVid.timeOfLookAt > 3){
         c.done = true
-        console.log(c.el)
       }
 
       if(!c.done){

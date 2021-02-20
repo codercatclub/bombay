@@ -30,7 +30,7 @@ const Mover = {
     this.wasdControls = camera.getAttribute("wasd-controls");
     this.lookControls = camera.components["look-controls"];
     this.camera = camera.object3D;
-    this.lastCameraPosition = new THREE.Vector3();
+    this.lastCameraPosition = new THREE.Vector3().copy(this.camera.position);
 
     // ground raycasting
     this.raycaster = new THREE.Raycaster();
