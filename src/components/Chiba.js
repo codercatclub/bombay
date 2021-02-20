@@ -9,6 +9,7 @@ const Chiba = {
     chiba2: { type: "string", default: "chiba3" },
     chiba3: { type: "string", default: "chiba4" },
     finalChiba: { type: "string", default: "chiba0" },
+    finalChibaBack: { type: "string", default: "chiba0Background" },
   },
   init: function () {
     //chiba system, checks if you have looked at all 4 chibas for at least 3 seconds. if you have, 
@@ -27,15 +28,19 @@ const Chiba = {
     })
 
     this.finalChiba = document.querySelector(`#${this.data.finalChiba}`);
+    this.finalChibaBack = document.querySelector(`#${this.data.finalChibaBack}`);
     this.moverComponent = document.querySelector('#camera').components.mover;
 
     this.activateCoroutine = function* () {
       let obj3D = this.finalChiba.object3D;
-      obj3D.position.y = -2;
+      let obj3D2 = this.finalChibaBack.object3D;
+      obj3D.position.y = -5;
+      obj3D2.position.y = -5;
       let t = 0;
       while (t <= 1) {
         t += this.deltaTimeSec/5.66;
-        obj3D.position.y = -1 + 6 * t;
+        obj3D.position.y = -5 + 10 * t;
+        obj3D2.position.y = -5 + 10 * t;
         yield;
       }
     };

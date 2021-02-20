@@ -15,6 +15,7 @@ export default {
     teleportProgress: { default: 0 },
     posterize: { default: 0 },
     seaAmt: { default: 0 },
+    haloAmt: { default: 0 },
     color: { type: "color", default: "#ffffff" },
     vertexColors: { type: "string", default: "" },
     instanced: { type: "bool", default: false },
@@ -22,8 +23,7 @@ export default {
   },
 
   init: function () {
-    const { vertexColors, color, transparent, seaAmt } = this.data;
-    this.seaDefine = seaAmt > 0.0 ? "" : undefined;
+    const { vertexColors, color, transparent } = this.data;
     this.uniforms = this.initVariables(this.data);
     this.vAmt = 0.0;
 
@@ -95,9 +95,14 @@ export default {
 
   createMaterial: function (materialOptions) {
     let mat = new THREE.MeshPhongMaterial(materialOptions);
-    mat.defines = {
-      SEA: this.seaDefine,
-    };
+    mat.defines = {};
+    if(this.data.seaAmt > 0) {
+      mat.defines.SEA = ""
+    }
+    if(this.data.haloAmt > 0) {          
+      mat.defines.HALO = ""
+      mat.defines.USE_UV = ""
+    }
 
     mat.onBeforeCompile = (shader) => {
       shader.uniforms = THREE.UniformsUtils.merge([

@@ -90,6 +90,23 @@ void main() {
 	// outgoingLight = mix(outgoingLight, floor(fAmt*outgoingLight)/fAmt, usePosterize);
 
 	gl_FragColor = vec4( outgoingLight, diffuseColor.a);
+
+	#ifdef HALO
+		float radius = fract(timeMsec / 1000.0);
+		float t = fract(timeMsec / 390.0);
+		float qAmt = 5.0 + floor(10.0 * t);
+		vec2 vToUse = floor(vUv * qAmt) / qAmt;
+		vec2 vToCenter = 2.0 * (vToUse - vec2(0.5,0.5));
+		float dToCenter = length(vToCenter);
+		float oNoise = 0.4 *cnoise(10.0*vToUse + 0.0001*timeMsec);
+
+		if(abs(dToCenter-radius) < 0.1 + oNoise) {
+			gl_FragColor.rgb = fractBy3;
+		} else {
+			gl_FragColor.rgb = vec3(vToCenter, radius);
+		}
+		gl_FragColor.a = 1.0 - pow(dToCenter,3.0);
+	#endif 
 	#include <encodings_fragment>
 	@import ./FogFrag;
 	#include <premultiplied_alpha_fragment>
