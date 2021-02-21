@@ -2,8 +2,10 @@ import AFRAME from 'aframe';
 const THREE = AFRAME.THREE;
 
 const Dome = {
+  schema: {
+    triggerRadius: {default: 10}
+  },
   init: function () {
-
 
     let planeGeo = new THREE.PlaneGeometry(8,8);
     let tempMat = new THREE.MeshBasicMaterial();
@@ -44,17 +46,35 @@ const Dome = {
 
       var mx = new THREE.Matrix4().lookAt(forward, new THREE.Vector3(0, 0, 0), new THREE.Vector3(0, 1, 0));
       mesh.quaternion.setFromRotationMatrix(mx);
-      
-
 
       this.rootObj.add(mesh)
     }
 
     this.el.setObject3D("mesh", this.rootObj);
     
+    const camera = document.querySelector("#camera");
+    this.camera = camera.object3D;
+    this.cameraWorldPos = new THREE.Vector3();
+
+    this.skyLerp = 0.0;
   },
   
   tick: function (time, timeDelta) {
+
+    this.camera.getWorldPosition(this.cameraWorldPos);
+    let dist = this.cameraWorldPos.distanceTo(this.el.object3D.position);
+    if(dist < this.data.triggerRadius)
+    {
+      this.skyLerp = Math.min(this.skyLerp + 0.0004*timeDelta, 0.999)
+    } else {
+      this.skyLerp = Math.max(this.skyLerp - 0.0008*timeDelta, 0.0)
+    }
+    if(this.sky){
+      this.sky.skyMaterial.uniforms.blockSizeMult.value = this.skyLerp;
+    } else {
+      this.sky = document.querySelector('#sky').components["sky-material"]
+    }
+
     this.rootObj.rotation.y += 0.0001*timeDelta;
     this.rootObj.rotation.x += 0.00005*timeDelta;
   },

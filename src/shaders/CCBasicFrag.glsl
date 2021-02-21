@@ -26,6 +26,7 @@ uniform float teleportProgress;
 uniform float shouldGlitch;
 uniform float ignoreGlobalGlitch;
 uniform float posterize;
+uniform vec3 fractBy3;
 #ifdef SEA
 uniform float seaAmt;
 varying float colorAmt;
@@ -76,11 +77,6 @@ void main() {
 		reflectedLight.indirectDiffuse = saturate(reflectedLight.indirectDiffuse);
 	#endif 
 	
-	vec3 fractBy3 = vec3(
-		floor(fract(.0075 * timeMsec) + 0.5),
-		floor(fract(.0075 * timeMsec+0.3) + 0.5),
-		floor(fract(.0075 * timeMsec+0.6) + 0.5)
-	);
 	//reflectedLight.indirectDiffuse.rgb += ignoreGlobalGlitch * max(glitchAmt, shouldGlitch)*fractBy3;
 	reflectedLight.indirectDiffuse.rgb = mix(reflectedLight.indirectDiffuse.rgb, fractBy3, glitchAmt);
     reflectedLight.directDiffuse *= diffuseColor.rgb;

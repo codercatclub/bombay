@@ -7,6 +7,7 @@ import CCBasicFrag from "../shaders/CCBasicFrag.glsl";
 export default {
   schema: {
     timeMsec: { default: 1 },
+    fractBy3: { default: new THREE.Vector3() },
     voxelSize: { default: 1 },
     shouldGlitch: { default: 0 },
     globalGlitchAmt: { default: 0 },
@@ -70,6 +71,8 @@ export default {
 
     this.moverComponent = document.querySelector("#camera").components.mover;
     this.timeMoving = 0.0;
+
+    this.fractBy3 = new THREE.Vector3();
   },
 
   /** Assign material to all child meshes */
@@ -147,6 +150,11 @@ export default {
   },
 
   tick: function (time, timeDelta) {
+    this.fractBy3.set(
+      Math.floor((.0075 * time)%1 + 0.5),
+      Math.floor((.0075 * time+0.3)%1 + 0.5),
+      Math.floor((.0075 * time+0.6)%1 + 0.5)
+    );
     if (this.materialShaders.length > 0) {
       if (
         this.moverComponent.moveAmt < 0.001 ||
@@ -164,6 +172,7 @@ export default {
       }
       this.materialShaders.forEach((shader) => {
         shader.uniforms.timeMsec.value = time;
+        shader.uniforms.fractBy3.value = this.fractBy3;
         shader.uniforms.voxelSize.value = 5 * (this.vAmt + 0.0001);
       });
     }

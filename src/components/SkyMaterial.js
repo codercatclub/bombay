@@ -16,6 +16,12 @@ export default {
         time: {
           value: 0
         },
+        blockSizeMult: {
+          value: 0
+        },
+        fractBy3: {
+          value: 0
+        },
         horizonColor: {
           value: new THREE.Color("#7572ff")
         },
@@ -31,9 +37,17 @@ export default {
     const mesh = new THREE.Mesh(new THREE.SphereGeometry(10000,100), this.skyMaterial);
     mesh.rotation.x = -0.3;
     this.el.object3D.add(mesh);
+    this.fractBy3 = new THREE.Vector3();
+
   },
 
   tick: function (time, timeDelta) {
+    this.fractBy3.set(
+      Math.floor((.0075 * time)%1 + 0.5),
+      Math.floor((.0075 * time+0.3)%1 + 0.5),
+      Math.floor((.0075 * time+0.6)%1 + 0.5)
+    );
     this.skyMaterial.uniforms.time.value = time;
+    this.skyMaterial.uniforms.fractBy3.value = this.fractBy3;
   }
 };
