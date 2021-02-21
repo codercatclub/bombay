@@ -226,6 +226,7 @@
     <a-assets>
       <audio id="city-background-sound" src="assets/sounds/Dark_SciFi_Drone_Mixed_037.mp3" preload="auto"></audio>
       <audio id="dog-sound" src="assets/sounds/dogBarks.mp3" preload="auto"></audio>
+      <audio id="chiba-activation" src="assets/sounds/activation.mp3" preload="auto"></audio>
       <a-asset-item id="environment" src="assets/models/bb.glb"></a-asset-item>
       <a-asset-item id="chiba" src="assets/models/chiba.glb"></a-asset-item>
       <a-asset-item id="dog" src="assets/models/dog.glb"></a-asset-item>
@@ -244,9 +245,8 @@
     <a-entity loading-screen></a-entity>
     <a-entity id="sky" sky-material></a-entity>
 
-
     <a-entity id="cameraRig">
-      <a-entity id="camera" position="97.76856 0 -114.52353" camera wasd-controls="acceleration: 700" look-controls quick-turn mover>
+      <a-entity id="camera" position="0 0 0" camera wasd-controls="acceleration: 700" look-controls quick-turn mover>
       </a-entity>
       <a-entity oculus-go-controls></a-entity>
       <a-entity id="leftHandContloller" oculus-touch-controls="hand: left; orientationOffset: 0 0 0;"></a-entity>
@@ -328,12 +328,27 @@
 
       <a-entity ccbasic-material="vertexColors: face;" scale="2 2 2" gltf-model="#chiba" position="126.784 0 -125.523" rotation="0 0 0"></a-entity>
       <a-entity position="126.784 0 -125.523" rotation="">
+        <a-entity id="chibaActivationSound" position="37.50734 0 2.9402" sound="src: #chiba-activation; positional: true; autoplay: false; loop: false; volume: 10;"></a-entity>
         <a-plane id="chiba0Background" height="12" width="12" ccbasic-material="haloAmt: 1; transparent: true" position="37.80734 -5 2.9402" rotation="0 90 0"></a-plane>
-        <a-video id="chiba0" src="#vid0" ccbasic-material="posterize: 8" width="6" height="6" position="37.50734 -5 2.9402" rotation="0 90 0" positional-video="" material="" geometry="segmentsHeight: 12; segmentsWidth:12"></a-video>
+        <a-video id="chiba0" src="#vid0" ccbasic-material="posterize: 8" width="6" height="6" position="37.50734 -5 2.9402" rotation="0 90 0" positional-video="triggerRadius:10" material="" geometry="segmentsHeight: 12; segmentsWidth:12"></a-video>
         <a-video id="chiba2" src="#vid2" ccbasic-material="posterize: 12" width="3" height="3" position="25.50686 2.31857 -3.9206" rotation="" positional-video="" material="" geometry=""></a-video>
         <a-video id="chiba3" src="#vid3" ccbasic-material="posterize: 12" width="3" height="3" position="7.93389 2.23895 -3.21393" rotation="" positional-video="" material="" geometry=""></a-video>
         <a-video id="chiba4" src="#vid4" ccbasic-material="posterize: 12" width="3" height="3" position="8.06841 2.31857 9.73317" rotation="" positional-video="" material="" geometry=""></a-video>
       </a-entity>
+<!-- 
+      <a-entity id="00dome" dome>
+        <a-plane height="12" width="12" ccbasic-material="haloAmt: 1; transparent: true" position="37.80734 -5 2.9402" rotation="0 90 0"></a-plane>
+        <a-plane height="12" width="12" ccbasic-material="haloAmt: 1; transparent: true" position="37.80734 -5 2.9402" rotation="0 90 0"></a-plane>
+        <a-plane height="12" width="12" ccbasic-material="haloAmt: 1; transparent: true" position="37.80734 -5 2.9402" rotation="0 90 0"></a-plane>
+        <a-plane height="12" width="12" ccbasic-material="haloAmt: 1; transparent: true" position="37.80734 -5 2.9402" rotation="0 90 0"></a-plane>
+        <a-plane height="12" width="12" ccbasic-material="haloAmt: 1; transparent: true" position="37.80734 -5 2.9402" rotation="0 90 0"></a-plane>
+        <a-plane height="12" width="12" ccbasic-material="haloAmt: 1; transparent: true" position="37.80734 -5 2.9402" rotation="0 90 0"></a-plane>
+        <a-plane height="12" width="12" ccbasic-material="haloAmt: 1; transparent: true" position="37.80734 -5 2.9402" rotation="0 90 0"></a-plane>
+        <a-plane height="12" width="12" ccbasic-material="haloAmt: 1; transparent: true" position="37.80734 -5 2.9402" rotation="0 90 0"></a-plane>
+        <a-plane height="12" width="12" ccbasic-material="haloAmt: 1; transparent: true" position="37.80734 -5 2.9402" rotation="0 90 0"></a-plane>
+        <a-plane height="12" width="12" ccbasic-material="haloAmt: 1; transparent: true" position="37.80734 -5 2.9402" rotation="0 90 0"></a-plane>
+        <a-plane height="12" width="12" ccbasic-material="haloAmt: 1; transparent: true" position="37.80734 -5 2.9402" rotation="0 90 0"></a-plane>
+      </a-entity> -->
 
       <a-entity ccbasic-material="instanced: true" collider instanced-gltf-part="src: #environment; part:containers">
       </a-entity>

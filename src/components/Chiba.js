@@ -30,7 +30,12 @@ const Chiba = {
     this.finalChiba = document.querySelector(`#${this.data.finalChiba}`);
     this.finalChibaBack = document.querySelector(`#${this.data.finalChibaBack}`);
     this.moverComponent = document.querySelector('#camera').components.mover;
+
+    
     this.activateCoroutine = function* () {
+      
+      document.querySelector('#chibaActivationSound').components["sound"].playSound()
+
       let obj3D = this.finalChiba.object3D;
       let obj3D2 = this.finalChibaBack.object3D;
       let mat = this.finalChiba.components["ccbasic-material"];
@@ -40,7 +45,7 @@ const Chiba = {
       while (t <= 1) {
         mat.materialShaders[0].uniforms.posterize.value = 1 + 7 * t
         mat.materialShaders[0].uniforms.voxelSize.value = 3.0 - 3.0*t
-        t += this.deltaTimeSec/5.66;
+        t += this.deltaTimeSec/10.66;
         obj3D.position.y = -5 + 10 * t;
         obj3D2.position.y = -5 + 10 * t;
         yield;
