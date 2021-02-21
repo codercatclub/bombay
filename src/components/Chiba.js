@@ -76,7 +76,7 @@ const Chiba = {
         return;
       }
 
-      if(c.pVid.timeOfLookAt > 3){
+      if(c.pVid.timeOfLookAt > 1.5){
         c.done = true
       }
 
