@@ -22,6 +22,7 @@ import TestSystem from './systems/TestSystem';
 import SoundSystem from './systems/SoundSystem';
 import EnvSystem from './systems/EnvironmentSystem';
 import Chiba from './components/Chiba';
+import Dome from './components/Dome';
 
 const THREE = AFRAME.THREE;
 
@@ -49,3 +50,4 @@ AFRAME.registerComponent('storm-trigger-point', StormTriggerPoint);
 AFRAME.registerComponent('positional-video', PositionalVideo);
 AFRAME.registerComponent('collider', Collider);
 AFRAME.registerComponent('chiba-activator', Chiba);
+AFRAME.registerComponent('dome', Dome);

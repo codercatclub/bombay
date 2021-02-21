@@ -33,7 +33,6 @@ const Chiba = {
 
     
     this.activateCoroutine = function* () {
-      
       document.querySelector('#chibaActivationSound').components["sound"].playSound()
 
       let obj3D = this.finalChiba.object3D;

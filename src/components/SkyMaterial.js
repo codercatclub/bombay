@@ -10,7 +10,7 @@ export default {
     
     this.skyMaterial = new THREE.ShaderMaterial({
       uniforms: {
-        noise: {
+        noiseTex: {
           value: noiseTexture
         },
         time: {
