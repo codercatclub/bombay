@@ -19,7 +19,11 @@ export default {
       // Assign material to all child meshes
       this.el.object3D.traverse(child => {
         if (child.type === 'Mesh') {
-          this.chihuahuaMesh = child;
+          this.chihuahuaMesh = child.parent;
+          child.quaternion.premultiply(new THREE.Quaternion().setFromEuler(new THREE.Euler(0, Math.PI / 2, 0)))
+
+          child.position.y = -0.7
+          child.position.z = -0.5
         }
       });
     });
@@ -32,7 +36,7 @@ export default {
 
     this.timeOfLastGlitch = 0;
     this.circleT = 0.0;
-    this.nextSpinTime = 0.0;
+    this.nextTrickTime = 0.0;
     this.circleCenter = new THREE.Vector3();
 
     let glitchZoneNames = ["#tower"];
@@ -82,17 +86,22 @@ export default {
     }
   },
 
-  lookRotation: function(forward, target) {
-    var mx = new THREE.Matrix4().lookAt(forward, new THREE.Vector3(0, 0, 0), new THREE.Vector3(0, 1, 0));
+  lookRotation: function(forward, up, target) {
+    var mx = new THREE.Matrix4().lookAt(this.chihuahuaMesh.position, this.chihuahuaMesh.position.clone().add(forward), up );
     target.setFromRotationMatrix(mx);
-    target.premultiply(new THREE.Quaternion().setFromEuler(new THREE.Euler(0, -Math.PI / 2, 0)))
   },
 
+  getPosOnMobius: function(u,v) { 
+    let x = (1 + (v/2)*Math.cos(u/2)) * Math.cos(u)
+    let y = (1 + (v/2)*Math.cos(u/2)) * Math.sin(u)
+    let z = (v/2)*Math.sin(u/2)
+    return new THREE.Vector3(x,y,z).multiplyScalar(2);
+  },
   updateChihuahuaState: function (time, timeDelta) {
     switch (this.state) {
-      case CHIHUAHUA_STATES.MOBIUS_CHILL: {
+      case CHIHUAHUA_STATES.CIRCLE: {
         if(this.circleT > 1.0) {
-          this.nextSpinTime = time + 3000 + 2000.0 * Math.random();
+          this.nextTrickTime = time + 3000 + 2000.0 * Math.random();
           this.state = CHIHUAHUA_STATES.FOLLOW_MASTER;
         } else {
           this.circleT += 0.0007*timeDelta;
@@ -101,7 +110,33 @@ export default {
 
           let dir = new THREE.Vector3().subVectors(this.nextTarget,this.chihuahuaMesh.position);
           dir.y = 0.0;
-          this.lookRotation(dir.normalize(), this.nextRotation);
+          this.lookRotation(dir.normalize(), new THREE.Vector3(0, 1, 0), this.nextRotation);
+        }
+        break;
+      }
+      case CHIHUAHUA_STATES.MOBIUS_CHILL: {
+        if(this.circleT > 1.0) {
+          this.nextTrickTime = time + 3000 + 4000.0 * Math.random();
+          this.state = CHIHUAHUA_STATES.FOLLOW_MASTER;
+        } else {
+          this.circleT += 0.0001*timeDelta;
+          let u = 4 * Math.PI * this.circleT;
+          let v = (u - 2*Math.PI)/(2*Math.PI)
+
+          let circlePos = this.getPosOnMobius(u,v)
+          this.nextTarget.copy(this.circleCenter).add(circlePos);
+
+          let sCirclePos = this.getPosOnMobius(u,v+0.1)
+          let fCirclePos = this.getPosOnMobius(u+0.1,v)
+
+          let sDir = new THREE.Vector3().subVectors(sCirclePos,circlePos).normalize();
+          let fDir = new THREE.Vector3().subVectors(fCirclePos,circlePos).normalize();
+
+          let uDir = new THREE.Vector3().crossVectors(sDir, fDir);
+
+          this.nextTarget.y += 3
+
+          this.lookRotation(fDir, uDir, this.nextRotation);
         }
         break;
       }
@@ -112,14 +147,17 @@ export default {
           this.camForward = new THREE.Vector3();
           this.moverComponent.camera.getWorldDirection(this.camForward);
           this.camForward.y = 0.0;
-          this.lookRotation(this.camForward, this.nextRotation);
+          this.lookRotation(this.camForward, new THREE.Vector3(0, 1, 0), this.nextRotation);
           let randomOffset = new THREE.Vector3(Math.random()-0.5, 0.0, Math.random()-0.5).multiplyScalar(3);
-
           this.nextTarget.add(this.camForward.clone().multiplyScalar(-5).add(randomOffset));
         }
 
-        if(time > this.nextSpinTime) {
-          this.state = CHIHUAHUA_STATES.MOBIUS_CHILL;
+        if(time > this.nextTrickTime) {
+          if(Math.random() > 0.7) {
+            this.state = CHIHUAHUA_STATES.MOBIUS_CHILL;
+          } else {
+            this.state = CHIHUAHUA_STATES.CIRCLE;
+          }
           this.circleT = 0.0;
           this.circleCenter.copy(this.chihuahuaMesh.position);
           if(this.barkSound) {
@@ -141,9 +179,13 @@ export default {
 
 
     this.tweenForward.lerp(this.nextTarget, 0.05);
-    this.chihuahuaMesh.position.copy(this.tweenForward)
+    this.chihuahuaMesh.position.copy(this.tweenForward);
+
+    if(this.state !== CHIHUAHUA_STATES.MOBIUS_CHILL){
+      this.chihuahuaMesh.position.y = 0.25 * Math.sin(0.02 * time);
+    }
+
     this.chihuahuaMesh.quaternion.slerp(this.nextRotation, 0.1);
-    this.chihuahuaMesh.position.y = -0.5 + 0.25 * Math.sin(0.02 * time);
     if(!this.barkSound) {
       this.barkSound = document.querySelector('#dog-bark').components["sound"];
     } else {
